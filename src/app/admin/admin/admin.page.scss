@@ -1,0 +1,78 @@
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+}
+
+/* 🧱 LAYOUT PRINCIPAL */
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #0f1115;
+  color: white;
+}
+
+/* 📂 SIDEBAR */
+.sidebar {
+  width: 240px;
+  background: #1b1f27;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-right: 1px solid #2a2f3a;
+}
+
+/* LOGO */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* MENU */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu button {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #2a2f3a;
+  color: white;
+}
+
+/* 📄 CONTENIDO */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 🔥 CLAVE para Ionic */
+}
+
+/* 🔝 TOPBAR */
+.topbar {
+  height: 60px;
+  background: #1b1f27;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #2a2f3a;
+}
+
+/* 📦 PAGE */
+.page {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+}

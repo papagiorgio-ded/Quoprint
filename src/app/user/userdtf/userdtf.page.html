@@ -1,0 +1,144 @@
+
+<ion-content [fullscreen]="true">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Calculadora DTF</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="main-grid">
+
+    <!-- 🟦 IZQUIERDA: FORMULARIO -->
+    <div class="form-container">
+
+      <ion-item>
+        <ion-label position="stacked">Tamaño (cm)</ion-label>
+
+        <div class="row">
+          <ion-input type="number"
+                     [(ngModel)]="form.ancho"
+                     (ngModelChange)="calcularDTF()"
+                     placeholder="Ancho">
+          </ion-input>
+
+          <p>x</p>
+
+          <ion-input type="number"
+                     [(ngModel)]="form.alto"
+                     (ngModelChange)="calcularDTF()"
+                     placeholder="Alto">
+          </ion-input>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Unidades</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.unidades"
+                   (ionInput)="calcularDTF()">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Calidad</ion-label>
+        <ion-select [(ngModel)]="form.calidad"
+                    (ionChange)="calcularDTF()">
+
+          <ion-select-option value="normal">Normal</ion-select-option>
+          <ion-select-option value="alta">Alta calidad</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Film (€/m²)</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.precio_film_m2"
+                   (ionInput)="calcularDTF()">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Tinta (€/ml)</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.tinta_cm"
+                   (ionInput)="calcularDTF()">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Densidad de tinta {{form.densidad_tinta}}%</ion-label>
+        <ion-range min="10" max="100" step="5"
+                   [(ngModel)]="form.densidad_tinta"
+                   (ionChange)="calcularDTF()"
+                   [disabled]="!form.tinta_cm">
+        </ion-range>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Polvo adhesivo (€/kg)</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.precio_polvo_kg"
+                   (ionInput)="calcularDTF()">
+        </ion-input>
+      </ion-item>
+
+       <ion-item>
+        <ion-label position="stacked">Minutos trabajo</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.mano_obra_min"
+                   (ionInput)="calcularDTF()">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Mano de obra (€ / min)</ion-label>
+        <ion-input type="number"
+                   [(ngModel)]="form.precio_min"
+                   (ionInput)="calcularDTF()"
+                   [disabled]="!form.mano_obra_min">
+        </ion-input>
+      </ion-item>
+
+     
+
+    </div>
+
+    <!-- 🟩 DERECHA: RESULTADOS -->
+    <div class="resumen">
+
+      <div class="factura">
+
+        <div class="linea">
+          <span>Subtotal</span>
+          <span>{{ subtotal | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea">
+          <span>Merma</span>
+          <span>{{ form.merma }}%</span>
+        </div>
+
+        <div class="linea total">
+          <span>Total</span>
+          <span>{{ totalCalculado | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea final">
+          <span>Venta recomendada</span>
+          <span>{{ totalVenta | number:'1.2-2' }} €</span>
+        </div>
+
+      </div>
+      <ion-button (click)="enviarPDF()">
+  📧 Enviar presupuesto por email
+      </ion-button>
+      <ion-button color="dark" (click)="imprimirPDF()">
+  🖨️ Imprimir presupuesto
+</ion-button>
+
+    </div>
+
+  </div>
+
+</ion-content>

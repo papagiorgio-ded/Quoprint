@@ -1,0 +1,56 @@
+<div class="user-layout">
+
+  <!-- 📂 SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="logo">
+      Index
+    </div>
+
+    <div class="menu">
+
+      <button (click)="go('/user/laser')">
+        Calculadora láser
+      </button>
+
+      <button (click)="go('/user/xerox')">
+         Calculadora xerox
+      </button>
+
+      <button (click)="go('/user/dtf')">
+         Calculadora DTF
+      </button>
+      <button (click)="go('/user/ploter')">
+         Calculadora Plotter
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- 📄 CONTENIDO -->
+  <div class="content">
+
+    <!-- 🔝 TOPBAR -->
+    <div class="topbar">
+      <h3>Panel de usuario</h3>
+    @if (isAdmin == true) {
+  <ion-button (click)="goAdmin()">
+    ⚙️ Admin
+  </ion-button>
+}
+<div>
+<img *ngIf="user?.picture" [src]="user.picture" class="user-avatar">
+{{user.email}}
+
+</div>
+    </div>
+
+    <!-- PÁGINA -->
+    <ion-content class="page">
+      <ion-router-outlet></ion-router-outlet>
+    </ion-content>
+
+  </div>
+
+</div>

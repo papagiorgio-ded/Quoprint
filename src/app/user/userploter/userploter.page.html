@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Calculadora Plotter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="main-grid">
+
+    <!-- 🧾 FORM -->
+    <div class="form-container">
+
+      <ion-item>
+        <ion-label position="stacked">Tipo trabajo</ion-label>
+        <ion-select [(ngModel)]="form.tipo_trabajo" (ionChange)="calcularPlotter()">
+          <ion-select-option value="corte">Corte</ion-select-option>
+          <ion-select-option value="impresion">Impresión</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tamaño (cm)</ion-label>
+        <div class="row">
+          <ion-input type="number" [(ngModel)]="form.ancho" (ngModelChange)="calcularPlotter()" placeholder="Ancho"></ion-input>
+          <p>x</p>
+          <ion-input type="number" [(ngModel)]="form.alto" (ngModelChange)="calcularPlotter()" placeholder="Alto"></ion-input>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Unidades</ion-label>
+        <ion-input type="number" [(ngModel)]="form.unidades" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Desgaste unidad</ion-label>
+        <ion-input type="number" [(ngModel)]="form.desgaste_unidad" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+      
+
+      <ion-item>
+        <ion-label>Complejidad</ion-label>
+        <ion-select [(ngModel)]="form.complejidad" (ionChange)="calcularPlotter()">
+          <ion-select-option value="simple">Simple</ion-select-option>
+          <ion-select-option value="media">Media</ion-select-option>
+          <ion-select-option value="compleja">Compleja</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Material €/m²</ion-label>
+        <ion-input type="number" [(ngModel)]="form.precio_material_m2" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+      
+      <ion-item>
+        <ion-label>Material</ion-label>
+        <ion-select [(ngModel)]="form.tipo_material" (ionChange)="calcularPlotter()" [disabled]="!form.precio_material_m2">
+          <ion-select-option value="normal">Normal</ion-select-option>
+          <ion-select-option value="premium">Premium</ion-select-option>
+          <ion-select-option value="textil">Textil</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="form.tipo_trabajo === 'impresion'">
+        <ion-label position="stacked">Tinta €/ml</ion-label>
+        <ion-input type="number" [(ngModel)]="form.precio_tinta_ml" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="form.tipo_trabajo === 'impresion'">
+        <ion-label>Densidad tinta {{form.densidad_tinta}}%</ion-label>
+        <ion-range min="10" max="100" step="5"
+                   [(ngModel)]="form.densidad_tinta"
+                   (ionChange)="calcularPlotter()"
+                   [disabled]="!form.precio_tinta_ml">
+        </ion-range>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tiempo (min)</ion-label>
+        <ion-input type="number" [(ngModel)]="form.tiempo_min" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Precio €/min</ion-label>
+        <ion-input type="number" [(ngModel)]="form.precio_min" (ionInput)="calcularPlotter()"></ion-input>
+      </ion-item>
+
+    </div>
+
+    <!-- 💰 RESULTADOS -->
+    <div class="resumen">
+
+      <div class="factura" >
+
+        <div class="linea">
+          <span>Subtotal</span>
+          <span>{{ subtotal | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea total">
+          <span>Total coste</span>
+          <span>{{ totalCalculado | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea final">
+          <span>Precio venta</span>
+          <span>{{ totalVenta | number:'1.2-2' }} €</span>
+        </div>
+         <ion-button (click)="enviarPDF()">
+  📧 Enviar presupuesto por email
+</ion-button>
+<ion-button color="dark" (click)="imprimirPDF()">
+  🖨️ Imprimir presupuesto
+</ion-button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

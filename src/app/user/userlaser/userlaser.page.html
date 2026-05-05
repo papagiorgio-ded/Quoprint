@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Calculadora Láser</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="main-grid">
+
+    <!-- 🧾 IZQUIERDA (FORMULARIO) -->
+    <div class="form-container">
+
+      <ion-item>
+        <ion-label position="stacked">Material</ion-label>
+        <ion-select 
+          [(ngModel)]="materialSeleccionado"
+          (ionChange)="calcular()">
+
+          <ion-select-option 
+            *ngFor="let m of materiales" 
+            [value]="m">
+            {{ m.nombre }}
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tamaño (cm)</ion-label>
+        <div class="row">
+          <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.ancho" (ngModelChange)="calcular()" placeholder="Ancho"></ion-input>
+          <p>x</p>
+          <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.alto" (ngModelChange)="calcular()" placeholder="Alto"></ion-input>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tiempo corte (min)</ion-label>
+        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.tiempo_corte" (ngModelChange)="calcular()"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Mano de obra (horas)</ion-label>
+        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.mano_obra" (ngModelChange)="calcular()"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Pintado (unidad)</ion-label>
+        <ion-checkbox slot="end"  [(ngModel)]="form.pintado" (ionChange)="calcular()"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Unidades</ion-label>
+        <ion-input type="number"[clearOnEdit]="true" [(ngModel)]="form.unidades" (ngModelChange)="calcular()"></ion-input>
+      </ion-item>
+
+    </div>
+
+    <!-- 💰 DERECHA (FACTURA) -->
+    <div class="resumen">
+
+      <!-- Multiplicador -->
+       <ion-list>
+      <ion-radio-group 
+  [value]="multiplicador"
+  (ionChange)="onMultiplicadorChange($event)">
+
+  <ion-item lines="none">
+    <ion-label>x2</ion-label>
+    <ion-radio [value]="2"></ion-radio>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label>x3</ion-label>
+    <ion-radio [value]="3"></ion-radio>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label>x4</ion-label>
+    <ion-radio [value]="4"></ion-radio>
+  </ion-item>
+
+</ion-radio-group>
+      </ion-list>
+
+      <!-- RESULTADOS -->
+      <div class="factura" >
+
+        <div class="linea">
+          <span>Subtotal</span>
+          <span>{{ subtotal | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea">
+          <span>IVA</span>
+          <span>{{ IVA | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea total">
+          <span>Total</span>
+          <span>{{ totalCalculado | number:'1.2-2' }} €</span>
+        </div>
+
+        <div class="linea final">
+          <span>Total x{{ multiplicador }}</span>
+          <span>{{ multiplicadorradio | number:'1.2-2' }} €</span>
+        </div>
+        <ion-button (click)="enviarPDF()">
+  📧 Enviar presupuesto por email
+</ion-button>
+<ion-button color="dark" (click)="imprimirPDF()">
+  🖨️ Imprimir presupuesto
+</ion-button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

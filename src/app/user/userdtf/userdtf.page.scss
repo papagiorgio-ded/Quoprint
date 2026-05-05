@@ -1,0 +1,119 @@
+/* 🧱 GRID PRINCIPAL */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+  padding: 15px;
+  height: 100%;
+}
+
+/* 📥 FORMULARIO */
+.form-container {
+  background: #1b1f27;
+  padding: 15px;
+  border-radius: 14px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 🔥 más separación entre bloques */
+}
+
+/* 🧾 ION-ITEM (CLAVE PARA SEPARAR LABEL / INPUT) */
+.form-container ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 6px; /* 🔥 separación label-input */
+}
+
+/* 🏷️ LABEL */
+.form-container ion-label {
+  margin-bottom: 4px; /* 🔥 espacio extra */
+  font-size: 13px;
+  color: #fff;
+}
+
+/* ⌨️ INPUTS (NO CAMBIO COLOR) */
+.form-container ion-input,
+.form-container ion-select {
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-left: 4%;
+}
+
+/* 🧾 ROW */
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* 🎚️ RANGE */
+.form-container ion-range {
+  width: 100%;
+  margin-top: 8px; /* 🔥 más aire */
+}
+
+/* 💰 PANEL DERECHO */
+.resumen {
+  background: #1b1f27;
+  padding: 15px;
+  border-radius: 14px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  justify-content: flex-start;
+  border-left: 1px solid #333;
+}
+
+/* 🧾 TÍTULO */
+.resumen h3 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* 📄 FACTURA */
+.factura {
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
+
+/* 📊 LÍNEAS */
+.linea {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* 💰 TOTAL */
+.total {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+}
+
+/* 🎯 FINAL */
+.final {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #4cafef;
+  font-size: 18px;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}

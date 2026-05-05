@@ -1,0 +1,39 @@
+<div class="admin-layout">
+
+  <!-- 📂 SIDEBAR (FUERA de ion-content) -->
+  <div class="sidebar">
+
+    <div class="logo">Admin</div>
+
+    <div class="menu">
+
+      <button (click)="go('/admin/laser')"> Láser</button>
+      <button (click)="go('/admin/xerox')"> Xerox</button>
+      <button (click)="go('/admin/dtf')"> DTF</button>
+      <button (click)="go('/admin/ploter')"> Ploter</button>
+
+    </div>
+
+  </div>
+
+  <!-- 📄 CONTENIDO (AQUÍ SÍ ion-content) -->
+  <div class="content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h3>Panel de administración</h3>
+      <ion-button (click)="go('/user/laser')">Vista Usuario</ion-button>
+      <div>👤 Usuario</div>
+      
+    </div>
+
+    <!-- 🔥 IONIC CONTENT SOLO AQUÍ -->
+    <ion-content class="page">
+
+      <ion-router-outlet></ion-router-outlet>
+
+    </ion-content>
+
+  </div>
+
+</div>

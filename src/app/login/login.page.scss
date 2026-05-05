@@ -1,0 +1,52 @@
+/* 🌌 FONDO DEGRADADO */
+.login-content {
+  --background: linear-gradient(135deg, #1e88e5, #64b5f6, #bbdefb);
+}
+
+/* 📦 CONTENEDOR BLANCO (tipo tarjeta) */
+.login-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🧾 TARJETA */
+.login-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 350px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+
+  /* ✨ sombra suave */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 🖼️ LOGO */
+.logo {
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+/* 📝 TEXTO */
+.login-card h2 {
+  color: #222;
+  margin: 0;
+}
+
+.login-card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* 🔘 BOTONES */
+ion-button {
+  width: 100%;
+}
