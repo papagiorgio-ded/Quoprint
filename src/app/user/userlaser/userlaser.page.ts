@@ -5,6 +5,14 @@ import { AlertController, IonButton, IonButtons, IonCheckbox, IonContent, IonHea
 import { HttpClient } from '@angular/common/http';
 import { jsPDF } from 'jspdf';
 
+interface ConfigGlobal {
+  mano_obra: number;
+  iva: number;
+  limpieza: number;
+  mascara: number;
+  pintura: number;
+  tiempo_corte: number;
+}
 @Component({
   selector: 'app-userlaser',
   templateUrl: './userlaser.page.html',
@@ -18,6 +26,14 @@ export class UserlaserPage implements OnInit {
   public materiales: any[] = [];
  public materialSeleccionado: any;
  public totalCalculado:any;
+ public configGlobal: ConfigGlobal = {
+  mano_obra: 0,
+  iva: 21,
+  limpieza: 0,
+  mascara: 0,
+  pintura: 0,
+  tiempo_corte: 0
+ };
  public multiplicador:number = 3;
  public multiplicadorradio:number = 0;
  public subtotal:number = 0;
@@ -26,6 +42,7 @@ export class UserlaserPage implements OnInit {
   ngOnInit() {
 
     this.getMateriales()
+    this.getConfigGlobal()
   }
 
    public form = {
@@ -39,11 +56,14 @@ export class UserlaserPage implements OnInit {
      // ultima_mod: 0,
   };
 
+
+
 calcular() {
 
   if (!this.materialSeleccionado) return;
 
   const m = this.materialSeleccionado;
+  const g = this.configGlobal;
 
   const n = (v: any) => Number(v) || 0;
 
@@ -57,33 +77,34 @@ calcular() {
     return;
   }
 
-  // COSTE BASE CM²
+  // 💰 COSTE BASE CM²
   const costeBaseCm2 = n(m.coste) / areaPlancha;
 
-  //  MATERIAL
+  // 📦 MATERIAL
   const costeMaterial = costeBaseCm2 * areaPieza * unidades;
 
-  //  MÁSCARA (cm²)
-  const mascara = n(m.coste_mascara_cm) * areaPieza * unidades;
+  // 🧠 GLOBAL (ya no viene del material)
+  const mascara = n(g.mascara) * areaPieza * unidades;
 
-  //  PINTURA (por unidad)
   const pintura = this.form.pintado
-    ? n(m.coste_pintura) * unidades
+    ? n(g.pintura) * unidades
     : 0;
 
-  //  CORTE (por unidad)
-  const corte = n(this.form.tiempo_corte) * n(m.precio_mano_obra) * unidades;
+  const corte =
+  n(this.form.tiempo_corte) *
+  n(g.mano_obra);
 
-  //  LIMPIEZA (por unidad)
-  const limpieza = n(m.tiempo_limpieza_coste) * unidades;
+  const limpieza = n(g.limpieza) * unidades;
 
-  //  MANO OBRA
-  const manoObra =
-    n(this.form.mano_obra) *
-    n(m.precio_mano_obra) *
-    unidades;
+  const tiempoCorte = n(g.tiempo_corte);
+const manoHora = n(g.mano_obra);
 
-  //  SUBTOTAL
+const manoObra =
+  (tiempoCorte / 60) *
+  manoHora *
+  unidades;
+
+  // 📊 SUBTOTAL
   let subtotal =
     costeMaterial +
     mascara +
@@ -92,14 +113,14 @@ calcular() {
     limpieza +
     manoObra;
 
-  //  MERMA
+  // 📉 MERMA (sí sigue en material)
   subtotal *= 1 + n(m.merma_porcentaje) / 100;
 
-  //  IVA
-  const total = subtotal * (1 + n(m.iva) / 100);
+  // 🧾 IVA (GLOBAL ahora)
+  const total = subtotal * (1 + n(g.iva) / 100);
 
-  //finales
-  this.multiplicadorradio = total * this.multiplicador
+  // 🎯 RESULTADO FINAL
+  this.multiplicadorradio = total * this.multiplicador;
   this.totalCalculado = total;
   this.subtotal = subtotal;
   this.IVA = total - subtotal;
@@ -269,5 +290,22 @@ async presentalertpdfemail() {
     win.print();
   };
 }
+getConfigGlobal() {
+  this.http.get<any>(`${this.localapi}/config-global`)
+    .subscribe({
+      next: (res) => {
+        console.log('Config global:', res);
 
+        this.configGlobal = {
+          mano_obra: Number(res.mano_obra) || 0,
+          iva: Number(res.iva) || 21,
+          limpieza: Number(res.limpieza) || 0,
+          mascara: Number(res.mascara) || 0,
+          pintura: Number(res.pintura) || 0,
+          tiempo_corte: Number(res.tiempo_corte) || 0
+        };
+      },
+      error: (err) => console.error(err)
+    });
+}
 }

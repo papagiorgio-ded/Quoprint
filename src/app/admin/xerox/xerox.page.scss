@@ -1,0 +1,119 @@
+/* 🌑 MODAL GENERAL */
+ion-modal {
+  --background: rgba(20, 24, 32, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* 📦 CARD PRINCIPAL */
+.form-card {
+  background: linear-gradient(145deg, #1f2430, #181c24);
+  padding: 18px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 🧾 INPUT ITEM */
+.input-item {
+  --background: transparent;
+  --color: #fff;
+  border-radius: 12px;
+  padding: 6px 10px;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+/* 🏷️ LABEL */
+.input-item ion-label {
+  font-size: 12px;
+  color: #8f9bb3;
+  letter-spacing: 0.5px;
+}
+
+/* ✏️ INPUT */
+.input-item ion-input {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* 🖱️ HOVER */
+.input-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 🎯 FOCUS */
+.input-item.item-has-focus {
+  border: 1px solid #00c6ff;
+  box-shadow: 0 0 8px rgba(0, 198, 255, 0.4);
+}
+
+/* 💰 FILA DE PRECIOS */
+.precio-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 500px) {
+  .precio-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 🎛️ BOTONES MODAL */
+.modal-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 💾 BOTÓN GUARDAR */
+.modal-actions ion-button:first-child {
+  --background: linear-gradient(135deg, #00c6ff, #0072ff);
+  --border-radius: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: 0.2s;
+}
+
+.modal-actions ion-button:first-child:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+}
+
+/* ❌ BOTÓN CANCELAR */
+.modal-actions ion-button:last-child {
+  --border-radius: 12px;
+  --color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-actions ion-button:last-child:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* 🧾 HEADER */
+ion-header ion-toolbar {
+  --background: #1b1f27;
+  --color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ❌ BOTÓN CERRAR */
+ion-button {
+  transition: 0.2s;
+}
+
+ion-button:hover {
+  opacity: 0.85;
+}

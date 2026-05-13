@@ -5,9 +5,211 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">xerox</ion-title>
-    </ion-toolbar>
-  </ion-header>
+ 
+
+  <ion-button (click)="openPapelModal()">
+  ➕ Añadir papel
+</ion-button>
+
+
+
+<ion-modal [isOpen]="showPapelModal" (didDismiss)="closePapelModal()">
+  <ng-template>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Nuevo papel</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closePapelModal()">✖</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+
+      <div class="form-card">
+
+        <!-- NOMBRE -->
+        <ion-item class="input-item">
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="nuevoPapel.nombre"></ion-input>
+        </ion-item>
+
+        <!-- PRECIOS -->
+        <div class="precio-row">
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">€/papel</ion-label>
+            <ion-input type="number" [(ngModel)]="nuevoPapel.precio_papel"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">€/copia</ion-label>
+            <ion-input type="number" [(ngModel)]="nuevoPapel.precio_copia"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">B/N</ion-label>
+            <ion-input type="number" [(ngModel)]="nuevoPapel.blanco_negro"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">Color</ion-label>
+            <ion-input type="number" [(ngModel)]="nuevoPapel.color"></ion-input>
+          </ion-item>
+
+        </div>
+
+      </div>
+
+      <!-- BOTONES -->
+      <div class="modal-actions">
+        <ion-button expand="block" (click)="guardarPapel()">
+          💾 Guardar
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" (click)="closePapelModal()">
+          Cancelar
+        </ion-button>
+      </div>
+
+    </ion-content>
+
+  </ng-template>
+</ion-modal>
+
+
+<ion-item class="input-item">
+            <ion-label position="stacked">Plastificado</ion-label>
+            <ion-input type="number" [(ngModel)]="nuevoPapel.plastificado"></ion-input>
+          </ion-item>
+
+<div class="papeles-grid">
+@for (papel of papeles; track papel.nombre) {
+
+  <div class="papel-item">
+    <h3>{{ papel.nombre }}</h3>
+
+    <p>Precio copia: {{ papel.precio_copia }} €/unidad</p>
+    <p>Precio papel: {{ papel.precio_papel }} €/unidad</p>
+
+    <div class="btn-group">
+      <ion-button color="warning" size="small" (click)="openEditModal(papel)">
+        ✏️ Editar
+      </ion-button>
+
+      <ion-button color="danger" size="small" (click)="presentalertdelete(papel)">
+        🗑️ Eliminar
+      </ion-button>
+    </div>
+  </div>
+  
+
+}
+</div>
+
+ 
+
+
+
+
+<ion-modal [isOpen]="showEditModal">
+
+  <ng-template>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Editar papel</ion-title>
+
+        <ion-buttons slot="end">
+          <ion-button (click)="closeEditModal()">
+            ✖
+          </ion-button>
+        </ion-buttons>
+
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+
+      <!-- 🧾 NOMBRE -->
+      <div class="form-card">
+
+  <!-- 🏷️ NOMBRE -->
+  <ion-item class="input-item">
+    <ion-label position="stacked">Nombre del papel</ion-label>
+    <ion-input
+      placeholder="Ej: Couché, Offset..."
+      [(ngModel)]="editarPapel.nombre">
+    </ion-input>
+  </ion-item>
+
+  <!-- 💰 PRECIOS EN FILA -->
+  <div class="precio-row">
+
+    <ion-item class="input-item">
+      <ion-label position="stacked">€/papel</ion-label>
+      <ion-input
+        type="number"
+        placeholder="0.10"
+        [(ngModel)]="editarPapel.precio_papel">
+      </ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-label position="stacked">€/copia</ion-label>
+      <ion-input
+        type="number"
+        placeholder="0.05"
+        [(ngModel)]="editarPapel.precio_copia">
+      </ion-input>
+    </ion-item>
+     <ion-item class="input-item">
+    <ion-label position="stacked">Plastificado</ion-label>
+    <ion-input
+      type="number"
+      placeholder="0"
+      [(ngModel)]="editarPapel.plastificado">
+    </ion-input>
+  </ion-item>
+    <ion-item class="input-item">
+    <ion-label position="stacked">Blanco y negro</ion-label>
+    <ion-input
+      type="number"
+      placeholder="0"
+      [(ngModel)]="editarPapel.blanco_negro">
+    </ion-input>
+  </ion-item>
+    <ion-item class="input-item">
+    <ion-label position="stacked">Color</ion-label>
+    <ion-input
+      type="number"
+      placeholder="0"
+      [(ngModel)]="editarPapel.color">
+    </ion-input>
+  </ion-item>
+  
+
+  </div>
+
+</div>
+
+      <!-- BOTONES -->
+      <div class="modal-actions">
+
+        <ion-button expand="block" (click)="guardarEdicion()">
+          💾 Guardar cambios
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" (click)="closeEditModal()">
+          Cancelar
+        </ion-button>
+
+      </div>
+
+    </ion-content>
+
+  </ng-template>
+
+</ion-modal>
 </ion-content>

@@ -1,201 +1,183 @@
-<div id="main-content" class="center-container">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Materiales Laser</ion-title>
+  </ion-toolbar>
+</ion-header>
 
- <div id="main-content" class="page">
+<ion-content class="ion-padding">
 
-  <!-- HEADER -->
-  <div class="page-header">
-    <h1>Gestión de materiales</h1>
-    <ion-button (click)="abrirModal()">
-      ➕ Nuevo material
-    </ion-button>
-  </div>
+  <!-- 🔧 CONFIG GLOBAL -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Configuración Global</ion-card-title>
+    </ion-card-header>
 
-  <!-- LISTADO -->
-  <div class="materials-grid">
+    <ion-card-content>
 
-    <ion-card *ngFor="let m of materiales" class="material-card">
-
-      <ion-card-content>
-
-        <div class="card-header">
-          <h2>{{ m.nombre }}</h2>
-          <span class="price">{{ m.coste }} €</span>
-        </div>
-
-        <div class="card-info">
-          <p>📏 {{ m.ancho_cm }} x {{ m.alto_cm }} cm</p>
-          <p>🧾 IVA: {{ m.iva }}%</p>
-        </div>
-
-        <div class="card-actions">
-          <ion-button size="small" fill="outline" color="warning" (click)="seleccionarMaterial(m)">
-            ✏️ Editar
-          </ion-button>
-
-          <ion-button size="small" fill="solid" color="danger" (click)="presentalertdelete(m)">
-            🗑 Eliminar
-          </ion-button>
-        </div>
-
-      </ion-card-content>
-
-    </ion-card>
-
-  </div>
-
-</div>
-
-
-
-</div>
-
-
-<ion-modal [isOpen]="isModalOpencreatematerial">
-
-  <ng-template>
-
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nuevo material</ion-title>
-        <ion-button slot="end" (click)="isModalOpencreatematerial = false">
-          ✖
-        </ion-button>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content class="ion-padding ">
-
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Nombre</ion-label>
-        <ion-input [(ngModel)]="form.nombre" [clearOnEdit]="true"></ion-input>
+      <ion-item>
+        <ion-label position="stacked">Mano de obra (€)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.mano_obra"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Tamaño (H × W) cm</ion-label>
-
-        <div class="size-group">
-          <ion-input type="number" [(ngModel)]="form.alto" [clearOnEdit]="true"></ion-input>
-          <span class="x">×</span>
-          <ion-input type="number" [(ngModel)]="form.ancho" [clearOnEdit]="true"></ion-input>
-        </div>
+      <ion-item>
+        <ion-label position="stacked">IVA (%)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.iva"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Coste</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.coste" step="0.01"></ion-input>
+      <ion-item>
+        <ion-label position="stacked">Limpieza (€)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.limpieza"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Merma %</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.merma"></ion-input>
+      <ion-item>
+        <ion-label position="stacked">Máscara (€)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.mascara"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Limpieza valor por unidad</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.limpieza" step="0.01"></ion-input>
+      <ion-item>
+        <ion-label position="stacked">Pintura (€)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.pintura"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Máscara valor por cm2</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.mascara" step="0.01"></ion-input>
+      <ion-item>
+        <ion-label position="stacked">Tiempo corte (€)</ion-label>
+        <ion-input type="number" [(ngModel)]="configGlobal.tiempo_corte"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Pintura valor por cm2</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.pintura" step="0.01"></ion-input>
-      </ion-item>
-
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Tiempo corte valor por minutos</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.tiempo_corte"></ion-input>
-      </ion-item>
-
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">Mano de obra valor por minutos</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.mano_obra" step="0.01"></ion-input>
-      </ion-item>
-
-      <ion-item lines="none" class="form-row">
-        <ion-label class="label">IVA %</ion-label>
-        <ion-input type="number" [clearOnEdit]="true" [(ngModel)]="form.IVA"></ion-input>
-      </ion-item>
-
-      <ion-button expand="block" class="save-btn" (click)="crearMaterial()">
-        💾 Guardar material
+      <ion-button expand="block" color="success" (click)="guardarConfigGlobal()">
+        💾 Guardar configuración
       </ion-button>
 
-    </ion-content>
+    </ion-card-content>
+  </ion-card>
 
-  </ng-template>
+  <!-- ➕ BOTÓN CREAR -->
+  <ion-button expand="block" (click)="abrirModal()">
+    ➕ Añadir material
+  </ion-button>
 
-</ion-modal>
+  <!-- 📦 LISTA MATERIALES -->
+  <ion-card *ngFor="let m of materiales">
 
-<ion-modal [isOpen]="isEditModalOpen">
+    <ion-card-header>
+      <ion-card-title>{{ m.nombre }}</ion-card-title>
+    </ion-card-header>
 
-  <ng-template>
+    <ion-card-content>
 
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Editar material</ion-title>
-        <ion-button slot="end" (click)="isEditModalOpen = false">
-          ✖
-        </ion-button>
-      </ion-toolbar>
-    </ion-header>
+      <p>Ancho: {{ m.ancho_cm }} cm</p>
+      <p>Alto: {{ m.alto_cm }} cm</p>
+      <p>Coste: {{ m.coste }} €</p>
+      <p>Merma: {{ m.merma_porcentaje }} %</p>
 
-    <ion-content class="ion-padding">
-
-      <ion-item>
-        <ion-label>Nombre</ion-label>
-        <ion-input [(ngModel)]="materialEdit.nombre"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Ancho y Alto (H&W)</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.ancho_cm"></ion-input> X   <ion-input type="number" [(ngModel)]="materialEdit.alto_cm"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Coste</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.coste"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>IVA</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.iva"></ion-input>
-      </ion-item>
-
-       <ion-item>
-        <ion-label>merma %</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.merma_porcentaje"></ion-input>
-      </ion-item>
- <ion-item>
-        <ion-label>Tiempo corte valor por minutos</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.tiempo_corte"></ion-input>
-      </ion-item>
-       <ion-item>
-        <ion-label>Máscara valor por cm2</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.coste_mascara_cm"></ion-input>
-      </ion-item>
-       <ion-item>
-        <ion-label>Pintura valor por unidad</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.coste_pintura"></ion-input>
-      </ion-item>
-       <ion-item>
-        <ion-label>Limpieza valor por unidad</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.tiempo_limpieza_coste"></ion-input>
-      </ion-item>
-       <ion-item>
-        <ion-label>Mano de obra</ion-label>
-        <ion-input type="number" [(ngModel)]="materialEdit.precio_mano_obra"></ion-input>
-      </ion-item>
-      <p>Ultima modificacion: {{ formatearFecha(materialEdit.ultima_modificacion) }} </p>
-      <ion-button expand="block" (click)="guardarEdicion()" >
-        💾 Guardar cambios
+      <ion-button size="small" color="warning" (click)="seleccionarMaterial(m)">
+        ✏️ Editar
       </ion-button>
 
-    </ion-content>
+      <ion-button size="small" color="danger" (click)="presentalertdelete(m)">
+        🗑️ Eliminar
+      </ion-button>
 
-  </ng-template>
+    </ion-card-content>
 
-</ion-modal>
+  </ion-card>
+
+  <!-- 🆕 MODAL CREAR -->
+  <ion-modal [isOpen]="isModalOpencreatematerial">
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Nuevo Material</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="form.nombre"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Ancho</ion-label>
+          <ion-input type="number" [(ngModel)]="form.ancho"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Alto</ion-label>
+          <ion-input type="number" [(ngModel)]="form.alto"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Coste (€)</ion-label>
+          <ion-input type="number" [(ngModel)]="form.coste"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Merma (%)</ion-label>
+          <ion-input type="number" [(ngModel)]="form.merma"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="crearMaterial()">
+          💾 Guardar
+        </ion-button>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+  <!-- ✏️ MODAL EDITAR -->
+  <ion-modal [isOpen]="isEditModalOpen">
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Material</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isEditModalOpen = false">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="materialEdit.nombre"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Ancho</ion-label>
+          <ion-input type="number" [(ngModel)]="materialEdit.ancho_cm"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Alto</ion-label>
+          <ion-input type="number" [(ngModel)]="materialEdit.alto_cm"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Coste</ion-label>
+          <ion-input type="number" [(ngModel)]="materialEdit.coste"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Merma</ion-label>
+          <ion-input type="number" [(ngModel)]="materialEdit.merma_porcentaje"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="guardarEdicion()">
+          💾 Guardar cambios
+        </ion-button>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

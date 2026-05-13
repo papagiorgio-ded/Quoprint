@@ -6,6 +6,44 @@
   padding: 15px;
   height: 100%;
 }
+.tabla-xerox {
+  margin-top: 15px;
+  background: #141821;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* HEADER */
+.tabla-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+/* FILAS */
+.tabla-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+/* TEXTO IZQUIERDA */
+.tabla-row span {
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* INPUTS */
+.tabla-row ion-input {
+  --background: #1b1f27;
+  --padding-start: 8px;
+  border-radius: 6px;
+}
 
 /* 📥 IZQUIERDA (INPUTS) */
 .inputs {
@@ -80,4 +118,59 @@ ion-item {
   .user-layout {
     grid-template-columns: 1fr;
   }
+}
+
+.modo-texto {
+  margin-top: -5px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #aaa;
+  text-align: right;
+}
+
+/* 📦 CONTENEDOR */
+ion-list {
+  background: #1b1f27;
+  border-radius: 12px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+/* 🧱 ITEMS */
+ion-item {
+  --background: transparent;
+  --color: #fff;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+
+/* 🖱️ HOVER */
+ion-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* 🔘 RADIO */
+ion-radio {
+  --color: #888;          /* sin seleccionar */
+  --color-checked: #4cafef; /* seleccionado */
+}
+
+/* 🏷️ LABEL */
+ion-label {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* ✅ ITEM SELECCIONADO */
+ion-item.item-radio-checked {
+  background: rgba(76, 175, 239, 0.15);
+  border: 1px solid #4cafef;
+}
+
+.checkbox-item {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.03);
 }

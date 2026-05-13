@@ -1,123 +1,112 @@
-/* 🌌 BASE */
-
-:host {
-  display: block;
-  height: 100%;
-}
-
 ion-content {
-  height: 100%;
-  --overflow: auto;
+  --background: #0f172a; /* azul oscuro casi negro */
 }
 
-.center-container {
-  min-height: 100vh;   /* antes: height 100% (malo) */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* 👈 clave: NO centrar vertical */
-  padding: 20px;
-  background: #0f1115;
-  overflow-y: auto;
+/* 🔧 CARD */
+ion-card {
+  background: #111827;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  margin-bottom: 20px;
+  border: 1px solid rgba(59,130,246,0.2);
 }
 
-/* 📦 tarjeta principal */
-.panel-card {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 18px;
-  background: #1b1f27;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  margin-top: 20px;
+/* 🧠 HEADER CARD */
+ion-card-header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  border-radius: 16px 16px 0 0;
 }
 
-/* 🧭 botones */
-.panel-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 10px 0;
-}
-
-/* 🔘 botones */
-.panel-buttons ion-button {
+ion-card-title {
+  color: #e5e7eb;
   font-weight: 600;
 }
 
-/* 🪟 MODAL */
-ion-modal {
-  --width: 95%;
-  --height: 92%;
-  --border-radius: 18px;
+/* 📦 CONTENIDO */
+ion-card-content {
+  padding: 15px;
 }
 
-/* 📜 contenido modal */
-ion-content {
-  --padding-top: 16px;
-  --padding-bottom: 20px;
-}
-
-/* 🎨 fondo modal */
-.modal-content {
-  --background: #1b1f27;
-}
-
-/* 🧾 fila form */
-/*
-.form-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  gap: 12px;
-}
-*/
-
-/* 🏷 label */
-.label {
-  flex: 1;
-  min-width: 160px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-/* ✏️ input */
-ion-input {
-  flex: 1;
-  --background: #2a2f3a;
-  border: 1px solid #3a3f4b;
+/* 🧾 INPUTS */
+ion-item {
+  --background: #1f2937;
   border-radius: 10px;
+  margin-bottom: 12px;
   --padding-start: 10px;
-  --padding-end: 10px;
+  --inner-padding-end: 10px;
+  border: 1px solid rgba(59,130,246,0.15);
+}
+
+/* LABEL */
+ion-label {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* INPUT */
+ion-input {
+  color: #f9fafb;
+  font-weight: 500;
+}
+
+/* ➕ BOTONES */
+ion-button {
+  margin-top: 15px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* 🔵 BOTÓN PRINCIPAL */
+ion-button[color="primary"] {
+  --background: #2563eb;
+  --background-hover: #1d4ed8;
+}
+
+/* 🟢 GUARDAR */
+ion-button[color="success"] {
+  --background: #22c55e;
+}
+
+/* 🟡 EDITAR */
+ion-button[color="warning"] {
+  --background: #f59e0b;
+  color: #000;
+}
+
+/* 🔴 ELIMINAR */
+ion-button[color="danger"] {
+  --background: #ef4444;
+}
+
+/* 📋 TEXTO MATERIALES */
+ion-card p {
+  margin: 5px 0;
   font-size: 14px;
-  color: white;
+  color: #d1d5db;
 }
 
-/* 🔵 focus limpio */
-ion-input.ion-focused {
-  border: 1px solid #4aa3ff;
-  box-shadow: 0 0 8px rgba(74,163,255,0.3);
+/* ✨ HOVER */
+ion-card:hover {
+  transform: translateY(-3px);
+  transition: 0.2s ease;
+  border: 1px solid rgba(59,130,246,0.4);
 }
 
-/* 💾 botón guardar */
-.save-btn {
-  margin-top: 20px;
-  font-weight: bold;
+/* 🧊 MODAL */
+ion-modal ion-content {
+  --background: #020617;
 }
 
-/* 📏 tamaño inputs */
-.size-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* HEADER MODAL */
+ion-modal ion-toolbar {
+  --background: #020617;
+  color: #e5e7eb;
+  border-bottom: 1px solid rgba(59,130,246,0.3);
 }
 
-.size-group ion-input {
-  width: 80px;
-  text-align: center;
+/* 🔘 BOTÓN HEADER */
+ion-toolbar ion-button {
+  color: #60a5fa;
 }
 
-.x {
-  color: #aaa;
-  font-weight: bold;
-}
+/* 📱 RESPONSIVE */

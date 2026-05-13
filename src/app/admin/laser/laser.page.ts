@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-// Ionic standalone
 import {
   IonContent,
   IonHeader,
@@ -21,6 +20,15 @@ import {
   AlertController,
   IonButtons
 } from '@ionic/angular/standalone';
+
+interface ConfigGlobal {
+  mano_obra: number;
+  iva: number;
+  limpieza: number;
+  mascara: number;
+  pintura: number;
+  tiempo_corte: number;
+}
 
 @Component({
   selector: 'app-laser',
@@ -48,183 +56,255 @@ import {
 })
 export class LaserPage {
 
-  constructor(private http: HttpClient,private alertController: AlertController) {}
+  constructor(
+    private http: HttpClient,
+    private alertController: AlertController
+  ) {}
 
-  ngOnInit(){
-    this.getMateriales();
-  }
-  // 🔥 CONTROL DEL MODAL
-  public isModalOpencreatematerial = false;
-  public localapi:string = 'http://localhost:3000'
-  // 📦 FORMULARIO
+  public localapi: string = 'http://localhost:3000';
+
+  // 🔥 CONFIG GLOBAL
+  configGlobal: ConfigGlobal = {
+    mano_obra: 0,
+    iva: 0,
+    limpieza: 0,
+    mascara: 0,
+    pintura: 0,
+    tiempo_corte: 0
+  };
+
+  // 📦 FORM MATERIAL
   public form = {
     nombre: '',
     ancho: 0,
-     alto: 0,
-    merma: 0,
+    alto: 0,
     coste: 0,
-      limpieza: 0,
-      mascara: 0,
-      pintura: 0,
-      IVA: 0,
-      tiempo_corte: 0,
-      mano_obra: 0,
-     // ultima_mod: 0,
+    merma: 0
   };
 
   public materiales: any[] = [];
 
-public isEditModalOpen = false;
+  public isModalOpencreatematerial = false;
+  public isEditModalOpen = false;
 
-public materialEdit: any = {};
+  public materialEdit: any = {};
 
-  // 🚀 ABRIR MODAL
-  abrirModal() {
-    this.isModalOpencreatematerial = true;
+  ngOnInit() {
+    this.getMateriales();
+    this.getConfig(); // 🔥 cargar config global
   }
 
-  // ❌ CERRAR MODAL
-  cerrarModal() {
-    this.isModalOpencreatematerial = false;
+  // =========================
+  // 🔍 VALIDACIONES
+  // =========================
+
+  validarFormMaterial(): boolean {
+    const f = this.form;
+
+    if (!f.nombre || f.nombre.trim() === '') return false;
+    if (f.ancho <= 0) return false;
+    if (f.alto <= 0) return false;
+    if (f.coste <= 0) return false;
+    if (f.merma < 0) return false;
+
+    return true;
   }
 
-  // 💾 CREAR MATERIAL (LUEGO CONECTAMOS BACKEND)
- crearMaterial() {
+  validarConfig(): boolean {
+    const c = this.configGlobal;
 
-  const payload = {
-    nombre: this.form.nombre,
-    ancho: this.form.ancho,
-    alto: this.form.alto,
-    coste: this.form.coste,
-    merma: this.form.merma,
-    limpieza: this.form.limpieza,
-    mascara: this.form.mascara,
-    pintura: this.form.pintura,
-    tiempo_corte: this.form.tiempo_corte,
-    mano_obra: this.form.mano_obra,
-    iva: this.form.IVA
-  };
+    return !(
+      c.mano_obra < 0 ||
+      c.iva < 0 ||
+      c.limpieza < 0 ||
+      c.mascara < 0 ||
+      c.pintura < 0 ||
+      c.tiempo_corte < 0
+    );
+  }
 
-  this.http.post(`${this.localapi}/materials`, payload)
-    .subscribe({
-      next: (res) => {
-        console.log('Material creado:', res);
-
-        // cerrar modal
-        this.isModalOpencreatematerial = false;
-
-        // reset form
-        this.form = {
-          nombre: '',
-          ancho: 0,
-          alto: 0,
-          coste: 0,
-          merma: 0,
-          limpieza: 0,
-          mascara: 0,
-          pintura: 0,
-          tiempo_corte: 0,
-          mano_obra: 0,
-          IVA: 0
-        };
-        this.presentalertconfirmacion();
-         this.getMateriales()
-      },
-      error: (err) => {
-        console.error('Error creando material:', err);
-      }
-    });
-   
-}
-
-
- getMateriales() {
-  this.http.get<any[]>(`${this.localapi}/getmaterials`)
-    .subscribe({
-      next: (res) => {
-        this.materiales = res;
-        console.log(this.materiales)
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-}
-
-seleccionarMaterial(material: any) {
-  this.materialEdit = { ...material }; // copia segura
-  this.isEditModalOpen = true;
-}
-
-formatearFecha(fecha: string) {
-  return new Date(fecha).toLocaleString('es-ES');
-}
-
-guardarEdicion() {
-  this.http.put(
-    `${this.localapi}/materials/${this.materialEdit.id}`,
-    this.materialEdit
-  ).subscribe({
-    next: (res) => {
-      console.log('Actualizado:', res);
-      this.isEditModalOpen = false;
-      this.getMateriales();
-      this.cerrarModal()
-      this.presentalertconfirmacion();
-    },
-    error: (err) => {
-      console.error(err);
-    }
-  });
-}
-
- async presentalertconfirmacion() {
+  async mostrarError(msg: string) {
     const alert = await this.alertController.create({
-      header: 'Guardado con exito',
-      subHeader: 'pulse el boton de abajo para continuar',
-      buttons: ['Close'],
+      header: 'Error',
+      message: msg,
+      buttons: ['OK']
     });
 
     await alert.present();
   }
 
-   async presentalertdelete(material: any) {
-  const alert = await this.alertController.create({
-    header: '¿Seguro que quieres borrar el material?',
-    message: 'Esta acción no se puede deshacer',
-    buttons: [
-      {
-        text: 'No',
-        role: 'cancel'
-      },
-      {
-        text: 'Sí',
-        role: 'destructive',
-        handler: () => {
-          this.deletematerials(material);
-        }
-      }
-    ]
-  });
+  // =========================
+  // 📦 CRUD MATERIAL
+  // =========================
 
-  await alert.present();
+  abrirModal() {
+    this.isModalOpencreatematerial = true;
+  }
+
+  cerrarModal() {
+    this.isModalOpencreatematerial = false;
+  }
+
+  crearMaterial() {
+
+    if (!this.validarFormMaterial()) {
+      this.mostrarError('❌ Todos los campos del material son obligatorios');
+      return;
+    }
+
+    const payload = { ...this.form };
+
+    this.http.post(`${this.localapi}/materials`, payload)
+      .subscribe({
+        next: () => {
+
+          this.isModalOpencreatematerial = false;
+
+          this.form = {
+            nombre: '',
+            ancho: 0,
+            alto: 0,
+            coste: 0,
+            merma: 0
+          };
+
+          this.presentalertconfirmacion();
+          this.getMateriales();
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+  }
+
+  getMateriales() {
+    this.http.get<any[]>(`${this.localapi}/getmaterials`)
+      .subscribe({
+        next: (res) => this.materiales = res,
+        error: (err) => console.error(err)
+      });
+  }
+
+  seleccionarMaterial(material: any) {
+    this.materialEdit = { ...material };
+    this.isEditModalOpen = true;
+  }
+guardarEdicion() {
+
+  if (!this.materialEdit.nombre || this.materialEdit.nombre.trim() === '') {
+    this.mostrarError('❌ El nombre no puede estar vacío');
+    return;
+  }
+
+  this.http.put(
+    `${this.localapi}/materials/${this.materialEdit.id}`,
+    this.materialEdit
+  ).subscribe({
+    next: () => {
+      this.isEditModalOpen = false;
+      this.getMateriales();
+      this.presentalertconfirmacion();
+    },
+    error: (err) => console.error(err)
+  });
+}
+ guardarConfigGlobal() {
+
+  // 🧠 VALIDACIÓN (evitar null / undefined)
+  if (
+    this.configGlobal.mano_obra == null ||
+    this.configGlobal.iva == null ||
+    this.configGlobal.limpieza == null ||
+    this.configGlobal.mascara == null ||
+    this.configGlobal.pintura == null ||
+    this.configGlobal.tiempo_corte == null
+  ) {
+    this.mostrarError('❌ Faltan campos en la configuración global');
+    return;
+  }
+
+  // 🧠 VALIDACIÓN EXTRA (opcional pero recomendable)
+  if (this.configGlobal.iva < 0 || this.configGlobal.iva > 100) {
+    this.mostrarError('❌ El IVA no es válido');
+    return;
+  }
+
+  this.http.put(
+    `${this.localapi}/config-global_laser`,
+    this.configGlobal
+  ).subscribe({
+    next: () => {
+      this.presentalertconfirmacion();
+    },
+    error: (err) => {
+      console.error(err);
+      this.mostrarError('❌ Error guardando configuración');
+    }
+  });
 }
 
+  deletematerials(material: any) {
 
-deletematerials(material: any) {
+    this.http.delete(`${this.localapi}/deletematerial/${material.id}`)
+      .subscribe({
+        next: () => this.getMateriales(),
+        error: (err) => console.error(err)
+      });
+  }
 
-  const id = material.id;
-
-  this.http.delete(`${this.localapi}/deletematerial/${id}`)
-    .subscribe({
-      next: (res) => {
-        console.log('Eliminado:', res);
-        this.getMateriales();
-      },
-      error: (err) => {
-        console.error(err);
-      }
+  async presentalertdelete(material: any) {
+    const alert = await this.alertController.create({
+      header: '¿Eliminar material?',
+      message: 'No se puede deshacer',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => this.deletematerials(material)
+        }
+      ]
     });
 
-}
+    await alert.present();
+  }
+
+  // =========================
+  // 🌍 CONFIG GLOBAL
+  // =========================
+
+  guardarConfig() {
+
+    if (!this.validarConfig()) {
+      this.mostrarError('❌ Configuración global inválida');
+      return;
+    }
+
+    this.http.post(`${this.localapi}/config-global_laser`, this.configGlobal)
+      .subscribe({
+        next: () => this.presentalertconfirmacion(),
+        error: (err) => console.error(err)
+      });
+  }
+
+  getConfig() {
+    this.http.get<ConfigGlobal>(`${this.localapi}/config-global_laser`)
+      .subscribe({
+        next: (res) => this.configGlobal = res,
+        error: (err) => console.error(err)
+      });
+  }
+
+  // =========================
+  // 🔔 ALERTA OK
+  // =========================
+
+  async presentalertconfirmacion() {
+    const alert = await this.alertController.create({
+      header: 'Guardado con éxito',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }
