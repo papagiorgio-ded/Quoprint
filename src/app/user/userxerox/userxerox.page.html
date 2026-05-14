@@ -1,171 +1,138 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Calculadora Xerox</ion-title>
+  <ion-toolbar class="retro-header">
+    <ion-title> Calculadora Xerox</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
-<div class="form-card">
+  <div class="main-grid">
 
-  <!-- 📄 PÁGINAS -->
-  <ion-item class="input-item">
-    <ion-label position="stacked">Número de páginas</ion-label>
-    <ion-input
-      type="number"
-      [(ngModel)]="form.paginas"
-      (ionInput)="calcularXerox()">
-    </ion-input>
-  </ion-item>
+    <!-- 🧾 FORMULARIO -->
+    <div class="panel form-panel">
 
-  <!-- 🔢 COPIAS -->
-  <ion-item class="input-item">
-    <ion-label position="stacked">Copias</ion-label>
-    <ion-input
-      type="number"
-      [(ngModel)]="form.copias"
-      (ionInput)="calcularXerox()">
-    </ion-input>
-  </ion-item>
+      <h2>CONFIG</h2>
 
-  <!-- 📐 TAMAÑO -->
-  <ion-item class="input-item">
-    <ion-label position="stacked">Tamaño</ion-label>
-    <ion-select
-      [(ngModel)]="form.tamano"
-      (ionChange)="calcularXerox()">
+      <ion-item>
+        <ion-label>Páginas</ion-label>
+        <ion-input type="number" [(ngModel)]="form.paginas" (ionInput)="calcularXerox()"></ion-input>
+      </ion-item>
 
-      <ion-select-option value="SRA3">SRA3</ion-select-option>
-      <ion-select-option value="A4">A4</ion-select-option>
-      <ion-select-option value="A5">A5</ion-select-option>
-      <ion-select-option value="A6">A6</ion-select-option>
-      <ion-select-option value="A7">A7</ion-select-option>
+      <ion-item>
+        <ion-label>Copias</ion-label>
+        <ion-input type="number" [(ngModel)]="form.copias" (ionInput)="calcularXerox()"></ion-input>
+      </ion-item>
 
-    </ion-select>
-  </ion-item>
-  <!-- 🧾 UNA CARA -->
-<ion-radio-group
-  [(ngModel)]="form.modo_cara"
-  (ionChange)="onModoCaraChange()">
+      <ion-item>
+        <ion-label>Tamaño</ion-label>
+        <ion-select [(ngModel)]="form.tamano" (ionChange)="calcularXerox()">
+          <ion-select-option value="SRA3">SRA3</ion-select-option>
+          <ion-select-option value="A4">A4</ion-select-option>
+          <ion-select-option value="A5">A5</ion-select-option>
+          <ion-select-option value="A6">A6</ion-select-option>
+          <ion-select-option value="A7">A7</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-  <ion-item>
-    <ion-label>Una cara</ion-label>
-    <ion-radio value="una"></ion-radio>
-  </ion-item>
+      <!-- 🎛️ MODO -->
+      <h3>MODO</h3>
 
-  <ion-item>
-    <ion-label>Doble cara</ion-label>
-    <ion-radio value="doble"></ion-radio>
-  </ion-item>
+      <ion-radio-group [(ngModel)]="form.modo_cara" (ionChange)="onModoCaraChange()">
+        <ion-item>
+          <ion-label>Una cara</ion-label>
+          <ion-radio value="una"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Doble cara</ion-label>
+          <ion-radio value="doble"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
 
-</ion-radio-group>
-<ion-list *ngIf="form.modo_cara === 'una'">
+      <div *ngIf="form.modo_cara === 'una'">
+        <ion-radio-group [(ngModel)]="form.una_cara_tipo" (ionChange)="calcularXerox()">
+          <ion-item>
+            <ion-label>B/N</ion-label>
+            <ion-radio value="bn"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Color</ion-label>
+            <ion-radio value="color"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </div>
 
-  <ion-radio-group
-    [(ngModel)]="form.una_cara_tipo"
-    (ionChange)="calcularXerox()">
+      <div *ngIf="form.modo_cara === 'doble'">
+        <p>CARA A</p>
+        <ion-radio-group [(ngModel)]="form.caraA" (ionChange)="calcularXerox()">
+          <ion-item>
+            <ion-label>B/N</ion-label>
+            <ion-radio value="bn"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Color</ion-label>
+            <ion-radio value="color"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
 
-    <ion-item>
-      <ion-label>Blanco y negro</ion-label>
-      <ion-radio value="bn"></ion-radio>
-    </ion-item>
+        <p>CARA B</p>
+        <ion-radio-group [(ngModel)]="form.caraB" (ionChange)="calcularXerox()">
+          <ion-item>
+            <ion-label>B/N</ion-label>
+            <ion-radio value="bn"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Color</ion-label>
+            <ion-radio value="color"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </div>
 
-    <ion-item>
-      <ion-label>Color</ion-label>
-      <ion-radio value="color"></ion-radio>
-    </ion-item>
+      <ion-item>
+        <ion-label>Papel</ion-label>
+        <ion-select [(ngModel)]="form.tipo_papel" (ionChange)="calcularXerox()">
+          <ion-select-option *ngFor="let p of papeles" [value]="p">
+            {{ p.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-  </ion-radio-group>
+      <ion-item>
+        <ion-label>Plastificado</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="form.plastificado" (ionChange)="calcularXerox()"></ion-checkbox>
+      </ion-item>
 
-</ion-list>
+    </div>
 
-<ion-list *ngIf="form.modo_cara === 'doble'">
+    <!-- 💰 RESULTADO -->
+    <div class="panel result-panel">
 
-  <h5>Cara A</h5>
+      <h2>RESULT</h2>
 
-  <ion-radio-group
-    [(ngModel)]="form.caraA"
-    (ionChange)="calcularXerox()">
+      <div class="linea">
+        <span>Subtotal</span>
+        <span>{{ subtotal | number:'1.2-2' }} €</span>
+      </div>
 
-    <ion-item>
-      <ion-label>Blanco y negro</ion-label>
-      <ion-radio value="bn"></ion-radio>
-    </ion-item>
+      <div class="linea">
+        <span>IVA</span>
+        <span>{{ IVA | number:'1.2-2' }} €</span>
+      </div>
 
-    <ion-item>
-      <ion-label>Color</ion-label>
-      <ion-radio value="color"></ion-radio>
-    </ion-item>
+      <div class="linea total">
+        <span>TOTAL</span>
+        <span>{{ totalCalculado | number:'1.2-2' }} €</span>
+      </div>
 
-  </ion-radio-group>
+      <ion-button expand="block" (click)="enviarPDF()">
+        📧 ENVIAR
+      </ion-button>
 
-  <h5>Cara B</h5>
+      <ion-button expand="block" fill="outline" (click)="imprimirPDF()">
+        🖨️ PRINT
+      </ion-button>
 
-  <ion-radio-group
-    [(ngModel)]="form.caraB"
-    (ionChange)="calcularXerox()">
+    </div>
 
-    <ion-item>
-      <ion-label>Blanco y negro</ion-label>
-      <ion-radio value="bn"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Color</ion-label>
-      <ion-radio value="color"></ion-radio>
-    </ion-item>
-
-  </ion-radio-group>
-
-</ion-list>
-
-  <!-- 📄 TIPO PAPEL -->
-  <ion-item class="input-item">
-    <ion-label position="stacked">Tipo de papel</ion-label>
-    <ion-select
-      [(ngModel)]="form.tipo_papel"
-      (ionChange)="calcularXerox()">
-
-      <ion-select-option
-        *ngFor="let p of papeles"
-        [value]="p">
-
-        {{ p.nombre }}
-      </ion-select-option>
-
-    </ion-select>
-  </ion-item>
-
-  <!-- 🔥 PLASTIFICADO -->
-  <ion-item>
-  <ion-label>Plastificado</ion-label>
-  <ion-checkbox
-    slot="end"
-    [(ngModel)]="form.plastificado"
-    (ionChange)="calcularXerox()">
-  </ion-checkbox>
-</ion-item>
-
-</div>
-
-<!-- 💰 RESULTADO -->
-<div class="resultados">
-
-  <h3>Presupuesto</h3>
-
-  <p>Subtotal: {{ subtotal | number:'1.2-2' }} €</p>
-  <p>IVA: {{ IVA | number:'1.2-2' }} €</p>
-
-  <h2>Total: {{ totalCalculado | number:'1.2-2' }} €</h2>
-
-  <ion-button expand="block" (click)="enviarPDF()">
-    📧 Enviar presupuesto
-  </ion-button>
-
-  <ion-button expand="block" color="dark" (click)="imprimirPDF()">
-    🖨️ Imprimir
-  </ion-button>
-
-</div>
+  </div>
 
 </ion-content>

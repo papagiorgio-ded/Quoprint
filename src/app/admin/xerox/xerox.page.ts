@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar,IonModal, IonButtons, IonItem, IonLabel, IonInput, AlertController} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
+interface ConfigGlobal {
+  plastificado: number;
+ 
+}
 
 @Component({
   selector: 'app-xerox',
@@ -18,6 +22,7 @@ export class XeroxPage implements OnInit {
 
   ngOnInit() {
     this.cargarPapeles();
+    this.getConfig();
   }
 public papeles: any[] = [];
   public localapi:string = 'http://localhost:3000'
@@ -31,6 +36,10 @@ nuevoPapel = {
   blanco_negro: 0,
   color: 0
 };
+
+ configGlobal: ConfigGlobal = {
+    plastificado: 0,
+  };
 
 openPapelModal() {
   this.showPapelModal = true;
@@ -82,6 +91,16 @@ cargarPapeles() {
       console.error('Error obteniendo papeles:', err);
     }
   });
+}
+
+async presentAlertOK() {
+  const alert = await this.alertController.create({
+    header: 'Guardado',
+    message: 'Configuración actualizada correctamente',
+    buttons: ['OK']
+  });
+
+  await alert.present();
 }
 
 showEditModal = false;
@@ -140,5 +159,27 @@ let id = papel.id;
       console.error('Error eliminando papel:', err);
     }
   });
+}
+
+
+ getConfig() {
+    this.http.get<ConfigGlobal>(`${this.localapi}/config-global_xerox`)
+      .subscribe({
+        next: (res) => this.configGlobal = res,
+        error: (err) => console.error(err)
+      });
+  }
+
+  guardarConfig() {
+
+  this.http.put(`${this.localapi}/config-global-xerox`, this.configGlobal)
+    .subscribe({
+      next: () => {
+        console.log('Config guardada');
+        this.presentAlertOK();
+      },
+      error: (err) => console.error(err)
+    });
+
 }
 }

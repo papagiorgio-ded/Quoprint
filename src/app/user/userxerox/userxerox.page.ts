@@ -29,7 +29,11 @@ interface Papel {
   blanco_negro: string | number;
   color: string | number;
   precio_papel: string | number;
-  plastificado: string | number;
+}
+
+interface ConfigGlobal {
+  plastificado: number;
+  iva: number;
 }
 
 @Component({
@@ -84,6 +88,10 @@ form: any = {
   doble_cara: false
 };
 
+public configGlobal: ConfigGlobal = {
+  plastificado: 0,
+  iva: 21
+};
 
 syncModoCara() {
   this.form.una_cara = this.form.modo_cara === 'una';
@@ -97,6 +105,7 @@ onModoCaraChange() {
 
   ngOnInit() {
     this.getpapels();
+     this.getConfigGlobalXerox();
   }
 
   // 🔁 EVITAR CONFLICTO
@@ -123,7 +132,7 @@ onModoCaraChange() {
     default: return 2;
   }
 }
-  calcularXerox() {
+calcularXerox() {
 
   const n = (v: any) => parseFloat(v) || 0;
 
@@ -131,7 +140,6 @@ onModoCaraChange() {
   if (!papel) return;
 
   const paginas = n(this.form.paginas);
-  const factor = this.factorTamano(this.form.tamano);
   const copias = n(this.form.copias) || 1;
 
   const esUna = this.form.modo_cara === 'una';
@@ -139,8 +147,7 @@ onModoCaraChange() {
 
   let hojas = paginas;
 
- 
-
+  // 📄 DOBLE CARA = menos hojas
   if (esDoble) {
     hojas = Math.ceil(paginas / 2);
   }
@@ -161,27 +168,27 @@ onModoCaraChange() {
 
   // 🔵 DOBLE CARA
   if (esDoble) {
+    const precioA = this.form.caraA === 'color' ? precioColor : precioBN;
+    const precioB = this.form.caraB === 'color' ? precioColor : precioBN;
 
-  const precioA = this.form.caraA === 'color' ? precioColor : precioBN;
-  const precioB = this.form.caraB === 'color' ? precioColor : precioBN;
+    total += hojas * (precioA + precioB);
+  }
 
-  total += hojas * (precioA + precioB);
-}
-
-  // 📄 PAPEL
+  // 📄 COSTE PAPEL
   total += hojas * n(papel.precio_papel);
 
   // 🔁 COPIAS
   total *= copias;
 
-  // 🔥 PLASTIFICADO
-if (this.form.plastificado) {
-  total += hojas * n(papel.plastificado) * copias;
-}
-  this.subtotal = total;
-  this.IVA = total * 0.21;
-  this.totalCalculado = total + this.IVA;
+  // 🔥 PLASTIFICADO (GLOBAL ✅)
+  if (this.form.plastificado) {
+    total += hojas * n(this.configGlobal.plastificado) * copias;
+  }
 
+  // 🧾 IVA (MEJOR GLOBAL)
+  this.subtotal = total;
+  this.IVA = total * (n(this.configGlobal.iva) / 100);
+  this.totalCalculado = total + this.IVA;
 }
 
   // 📦 BACKEND
@@ -273,4 +280,22 @@ if (this.form.plastificado) {
 
     win.onload = () => win.print();
   }
+
+  getConfigGlobalXerox() {
+  this.http.get<any>(`${this.localapi}/config-global_xerox`)
+    .subscribe({
+      next: (res) => {
+        console.log('Config Xerox:', res);
+
+        this.configGlobal = {
+          plastificado: Number(res.plastificado) || 0,
+          iva: Number(res.iva) || 21
+        };
+      },
+      error: (err) => {
+        console.error('Error cargando config xerox:', err);
+      }
+    });
+}
+  
 }

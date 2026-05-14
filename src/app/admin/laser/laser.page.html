@@ -83,14 +83,16 @@
   </ion-card>
 
   <!-- 🆕 MODAL CREAR -->
-  <ion-modal [isOpen]="isModalOpencreatematerial">
+  <ion-modal [isOpen]="isModalOpencreatematerial"
+  (didDismiss)="onCreateModalClose()"
+  >
     <ng-template>
 
       <ion-header>
         <ion-toolbar>
           <ion-title>Nuevo Material</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+            <ion-button color="light" (click)="cerrarModal()">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -132,14 +134,14 @@
   </ion-modal>
 
   <!-- ✏️ MODAL EDITAR -->
-  <ion-modal [isOpen]="isEditModalOpen">
+  <ion-modal [isOpen]="isEditModalOpen" (didDismiss)="onEditModalClose()">
     <ng-template>
 
       <ion-header>
         <ion-toolbar>
           <ion-title>Editar Material</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isEditModalOpen = false">Cerrar</ion-button>
+            <ion-button color="light" (click)="isEditModalOpen = false">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>

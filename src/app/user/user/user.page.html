@@ -4,24 +4,25 @@
   <div class="sidebar">
 
     <div class="logo">
-      Index
+      PIXEL INDEX
     </div>
 
     <div class="menu">
 
-      <button (click)="go('/user/laser')">
-        Calculadora láser
+      <button class="menu-btn" (click)="go('/user/laser')">
+         Láser
       </button>
 
-      <button (click)="go('/user/xerox')">
-         Calculadora xerox
+      <button class="menu-btn" (click)="go('/user/xerox')">
+         Xerox
       </button>
 
-      <button (click)="go('/user/dtf')">
-         Calculadora DTF
+      <button class="menu-btn" (click)="go('/user/dtf')">
+         DTF
       </button>
-      <button (click)="go('/user/ploter')">
-         Calculadora Plotter
+
+      <button class="menu-btn" (click)="go('/user/ploter')">
+         Plotter
       </button>
 
     </div>
@@ -33,17 +34,20 @@
 
     <!-- 🔝 TOPBAR -->
     <div class="topbar">
-      <h3>Panel de usuario</h3>
-    @if (isAdmin == true) {
-  <ion-button (click)="goAdmin()">
-    ⚙️ Admin
-  </ion-button>
-}
-<div>
-<img *ngIf="user?.picture" [src]="user.picture" class="user-avatar">
-{{user.email}}
 
-</div>
+      <h3>Panel de usuario</h3>
+
+      @if (isAdmin == true) {
+        <ion-button (click)="goAdmin()">
+          ⚙️ Admin
+        </ion-button>
+      }
+
+      <div class="user-info">
+        <img *ngIf="user?.picture" [src]="user.picture" class="user-avatar">
+        <span>{{ user.email }}</span>
+      </div>
+
     </div>
 
     <!-- PÁGINA -->

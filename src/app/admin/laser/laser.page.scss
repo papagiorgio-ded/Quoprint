@@ -1,112 +1,130 @@
+/* 🔤 FUENTE RETRO MÁS FINA */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 ion-content {
-  --background: #0f172a; /* azul oscuro casi negro */
+  --background: #000;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  font-size: 18px;
 }
 
-/* 🔧 CARD */
+/* 🔝 HEADER */
+ion-header ion-toolbar {
+  --background: #000;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  font-family: 'VT323', monospace;
+}
+
+/* 🧱 CARDS PRINCIPALES */
 ion-card {
-  background: #111827;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  background: #000;
+  border: 2px solid #fff;
+  box-shadow: none;
   margin-bottom: 20px;
-  border: 1px solid rgba(59,130,246,0.2);
 }
 
-/* 🧠 HEADER CARD */
+/* HEADER CARD */
 ion-card-header {
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  border-radius: 16px 16px 0 0;
+  border-bottom: 1px solid #fff;
 }
 
 ion-card-title {
-  color: #e5e7eb;
-  font-weight: 600;
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 2px;
 }
 
-/* 📦 CONTENIDO */
+/* 📦 CONTENIDO CARD */
 ion-card-content {
   padding: 15px;
 }
 
 /* 🧾 INPUTS */
 ion-item {
-  --background: #1f2937;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  --padding-start: 10px;
-  --inner-padding-end: 10px;
-  border: 1px solid rgba(59,130,246,0.15);
+  --background: transparent;
+  color: #fff;
+
+  border-bottom: 1px solid #444;
+
+  margin-bottom: 18px; /* 🔥 separación más limpia */
+  padding-bottom: 6px;
+
+  font-family: 'VT323', monospace;
 }
 
 /* LABEL */
 ion-label {
-  font-size: 13px;
-  color: #9ca3af;
+  font-size: 14px;
+  opacity: 0.85;
+  letter-spacing: 1px;
 }
 
-/* INPUT */
+/* INPUTS */
 ion-input {
-  color: #f9fafb;
-  font-weight: 500;
+  color: #fff;
+  font-size: 18px;
+  font-family: 'VT323', monospace;
 }
 
-/* ➕ BOTONES */
+/* ➕ BOTÓN PRINCIPAL */
 ion-button {
-  margin-top: 15px;
-  border-radius: 10px;
-  font-weight: 500;
+  margin-top: 10px;
+  --background: #fff;
+  color: #000;
+  font-size: 16px;
+  border-radius: 0;
+  font-family: 'VT323', monospace;
+  letter-spacing: 1px;
 }
 
-/* 🔵 BOTÓN PRINCIPAL */
-ion-button[color="primary"] {
-  --background: #2563eb;
-  --background-hover: #1d4ed8;
-}
-
-/* 🟢 GUARDAR */
-ion-button[color="success"] {
-  --background: #22c55e;
-}
-
-/* 🟡 EDITAR */
+/* 🟡 BOTÓN WARNING */
 ion-button[color="warning"] {
-  --background: #f59e0b;
+  --background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* 🔴 BOTÓN DANGER */
+ion-button[color="danger"] {
+  --background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* 🟢 BOTÓN SUCCESS */
+ion-button[color="success"] {
+  --background: #fff;
   color: #000;
 }
 
-/* 🔴 ELIMINAR */
-ion-button[color="danger"] {
-  --background: #ef4444;
-}
-
-/* 📋 TEXTO MATERIALES */
+/* 📦 LISTA MATERIALES */
 ion-card p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #d1d5db;
+  font-size: 15px;
+  margin: 6px 0;
+  color: #ddd;
 }
 
-/* ✨ HOVER */
+/* ✨ HOVER RETRO */
 ion-card:hover {
-  transform: translateY(-3px);
-  transition: 0.2s ease;
-  border: 1px solid rgba(59,130,246,0.4);
+  box-shadow: 0 0 12px rgba(255,255,255,0.2);
 }
 
-/* 🧊 MODAL */
+/* 🪟 MODALES */
 ion-modal ion-content {
-  --background: #020617;
+  --background: #000;
+  font-family: 'VT323', monospace;
 }
 
-/* HEADER MODAL */
 ion-modal ion-toolbar {
-  --background: #020617;
-  color: #e5e7eb;
-  border-bottom: 1px solid rgba(59,130,246,0.3);
-}
-
-/* 🔘 BOTÓN HEADER */
-ion-toolbar ion-button {
-  color: #60a5fa;
+  --background: #000;
+  color: #fff;
+  border-bottom: 2px solid #fff;
 }
 
 /* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  ion-card {
+    margin: 10px;
+  }
+}

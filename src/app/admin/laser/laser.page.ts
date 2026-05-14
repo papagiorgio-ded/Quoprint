@@ -307,4 +307,20 @@ guardarEdicion() {
 
     await alert.present();
   }
+
+  onEditModalClose() {
+  this.isEditModalOpen = false;
+}
+
+onCreateModalClose() {
+  this.isModalOpencreatematerial = false;
+
+  this.form = {
+    nombre: '',
+    ancho: 0,
+    alto: 0,
+    coste: 0,
+    merma: 0
+  };
+}
 }

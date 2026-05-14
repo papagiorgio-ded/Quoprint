@@ -81,8 +81,9 @@
 
 <ion-item class="input-item">
             <ion-label position="stacked">Plastificado</ion-label>
-            <ion-input type="number" [(ngModel)]="nuevoPapel.plastificado"></ion-input>
+            <ion-input type="number" [(ngModel)]="configGlobal.plastificado"></ion-input>
           </ion-item>
+          <ion-button expand="block" (click)="guardarConfig()">Guardar Configuración</ion-button>
 
 <div class="papeles-grid">
 @for (papel of papeles; track papel.nombre) {
@@ -164,14 +165,6 @@
         [(ngModel)]="editarPapel.precio_copia">
       </ion-input>
     </ion-item>
-     <ion-item class="input-item">
-    <ion-label position="stacked">Plastificado</ion-label>
-    <ion-input
-      type="number"
-      placeholder="0"
-      [(ngModel)]="editarPapel.plastificado">
-    </ion-input>
-  </ion-item>
     <ion-item class="input-item">
     <ion-label position="stacked">Blanco y negro</ion-label>
     <ion-input

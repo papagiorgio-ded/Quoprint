@@ -1,90 +1,117 @@
-/* 🌌 base */
-:host {
-  display: block;
-  height: 100%;
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* 🧠 GLOBAL */
+* {
+  font-family: 'VT323', monospace;
+  letter-spacing: 1px;
 }
 
+/* 🧱 LAYOUT */
 .user-layout {
   display: flex;
   height: 100vh;
-  background: #0f1115;
-  color: white;
+  background: #000;
+  color: #fff;
 }
 
-/* 📂 SIDEBAR usuario (más suave que admin) */
+/* 📂 SIDEBAR */
 .sidebar {
   width: 240px;
-  background: #151922;
-  border-right: 1px solid #2a2f3a;
-  padding: 20px;
+  background: #000;
+  border-right: 2px solid #fff;
   display: flex;
   flex-direction: column;
 }
 
-/* logo */
+/* LOGO */
 .logo {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #4aa3ff;
+  padding: 20px;
+  font-size: 22px;
+  border-bottom: 2px solid #fff;
+  text-align: center;
 }
 
-/* menú */
+/* MENU */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  padding: 15px;
+  gap: 12px;
 }
 
-.menu button {
+/* BOTONES MENU */
+.menu-btn {
   background: transparent;
-  border: none;
-  color: #cbd5e1;
-  text-align: left;
-  padding: 10px;
-  border-radius: 8px;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 12px;
+  font-size: 18px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.menu button:hover {
-  background: #2a2f3a;
-  color: white;
+/* HOVER */
+.menu-btn:hover {
+  background: #fff;
+  color: #000;
 }
 
-/* 📄 contenido */
+/* 📄 CONTENT */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
-/* 🔝 topbar */
+/* 🔝 TOPBAR */
 .topbar {
   height: 60px;
-  background: #151922;
-  border-bottom: 1px solid #2a2f3a;
+  border-bottom: 2px solid #fff;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
+  background: #000;
 }
 
-/* página */
+/* TITULO */
+.topbar h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* 👤 USER */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #fff;
+}
+
+/* 📱 PAGE */
 .page {
-  --background: #0f1115;
+  --background: #000;
   flex: 1;
 }
 
-/* 👤 AVATAR USUARIO */
-img {
-  width: 40px;
-  height: 40px;
-}
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .user-layout {
+    flex-direction: column;
+  }
 
-.email {
-  font-size: 8px;
-  font-weight: bold;
-   color: #4aa3ff;
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .menu {
+    flex-direction: row;
+  }
 }

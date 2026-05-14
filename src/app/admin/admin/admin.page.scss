@@ -1,54 +1,57 @@
-html, body, app-root {
-  height: 100%;
-  margin: 0;
-}
+/* 🔤 FUENTE PIXEL */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* 🧱 LAYOUT PRINCIPAL */
+/* GLOBAL */
 .admin-layout {
   display: flex;
   height: 100vh;
-  width: 100%;
-  background: #0f1115;
-  color: white;
+  font-family: 'VT323', monospace;
+  background: #000;
+  color: #fff;
 }
 
 /* 📂 SIDEBAR */
 .sidebar {
-  width: 240px;
-  background: #1b1f27;
+  width: 220px;
+  background: #000;
+  border-right: 2px solid #fff;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-right: 1px solid #2a2f3a;
 }
 
 /* LOGO */
 .logo {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 22px;
   margin-bottom: 30px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 10px;
+  letter-spacing: 2px;
 }
 
 /* MENU */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .menu button {
   background: transparent;
-  border: none;
-  color: #ccc;
-  text-align: left;
+  color: #fff;
+  border: 1px solid #fff;
   padding: 10px;
-  border-radius: 8px;
+  text-align: left;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+/* HOVER RETRO */
 .menu button:hover {
-  background: #2a2f3a;
-  color: white;
+  background: #fff;
+  color: #000;
 }
 
 /* 📄 CONTENIDO */
@@ -56,23 +59,66 @@ html, body, app-root {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* 🔥 CLAVE para Ionic */
 }
 
 /* 🔝 TOPBAR */
 .topbar {
-  height: 60px;
-  background: #1b1f27;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid #2a2f3a;
+  align-items: center;
+
+  padding: 15px 20px;
+  border-bottom: 2px solid #fff;
+  background: #000;
 }
 
-/* 📦 PAGE */
+.topbar h3 {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+/* BOTÓN TOPBAR */
+.topbar ion-button {
+  --background: #fff;
+  color: #000;
+  border-radius: 0;
+  font-family: 'VT323', monospace;
+}
+
+/* 📄 PAGE */
 .page {
-  flex: 1;
-  overflow: auto;
-  padding: 20px;
+  --background: #000;
+  color: #fff;
+  font-family: 'VT323', monospace;
+}
+
+/* ✨ EFECTO RETRO SUAVE */
+.sidebar,
+.topbar {
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 2px solid #fff;
+  }
+
+  .menu {
+    flex-direction: row;
+  }
+
+  .menu button {
+    min-width: 120px;
+  }
+
 }

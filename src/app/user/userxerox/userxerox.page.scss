@@ -1,176 +1,133 @@
-/* 🧱 LAYOUT PRINCIPAL */
-.user-layout {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 20px;
-  padding: 15px;
-  height: 100%;
-}
-.tabla-xerox {
-  margin-top: 15px;
-  background: #141821;
-  border-radius: 10px;
-  padding: 10px;
+/* 🔤 FUENTE PIXEL (más fina que Press Start) */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+ion-content {
+  --background: #000;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  font-size: 18px; /* base más legible */
 }
 
 /* HEADER */
-.tabla-header {
+.retro-header {
+  --background: #000;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+/* 🧱 GRID */
+.main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 5px;
-  padding: 5px;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  padding: 20px;
 }
 
-/* FILAS */
-.tabla-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 8px;
+/* 📦 PANEL */
+.panel {
+  background: #000;
+  border: 2px solid #fff;
+  padding: 20px;
 }
 
-/* TEXTO IZQUIERDA */
-.tabla-row span {
-  color: #ccc;
-  font-size: 14px;
+/* TITULOS */
+h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 8px;
+  letter-spacing: 2px;
 }
 
-/* INPUTS */
-.tabla-row ion-input {
-  --background: #1b1f27;
-  --padding-start: 8px;
-  border-radius: 6px;
+h3, p {
+  font-size: 16px;
+  margin: 15px 0 5px;
 }
 
-/* 📥 IZQUIERDA (INPUTS) */
-.inputs {
-  background: #1b1f27;
-  padding: 15px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* 🧾 INPUTS (AQUÍ ESTÁ LA CLAVE 🔥) */
 ion-item {
   --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  --min-height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  gap: 6px; /* 🔥 separación label-input */
-}
-
-/* 💰 DERECHA (RESULTADOS) */
-.resultados {
-  background: #1b1f27;
-  padding: 15px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-/* 🧾 TÍTULO */
-.resultados h3 {
-  margin-bottom: 10px;
   color: #fff;
+  border-bottom: 1px solid #444;
+  
+  margin-bottom: 18px; /* 🔥 MÁS SEPARACIÓN */
+  padding-bottom: 6px;
+
+  font-family: 'VT323', monospace;
 }
 
-/* 📄 BLOQUE FACTURA */
-.resultados {
-  border-left: 1px solid #333;
+/* INPUT / SELECT */
+ion-input,
+ion-select {
+  color: #fff;
+  font-size: 18px;
+  font-family: 'VT323', monospace;
 }
 
-/* 📊 LÍNEAS */
-.resultados p {
-  display: flex;
-  justify-content: space-between;
-  margin: 6px 0;
-  color: #ccc;
+/* LABEL */
+ion-label {
   font-size: 14px;
+  opacity: 0.8;
+  letter-spacing: 1px;
+  font-family: 'VT323', monospace;
 }
 
-/* 💰 TOTAL */
-.resultados h2 {
-  margin-top: 10px;
-  font-size: 20px;
-  color: #4cafef;
+/* RADIO / CHECK */
+ion-radio,
+ion-checkbox {
+  --color: #fff;
+  --color-checked: #fff;
+}
+
+/* 📻 RADIO ITEMS separación */
+ion-radio-group ion-item {
+  margin-bottom: 10px;
+}
+ion-label{
+  margin-right: 2%;
+}
+
+/* RESULTADO */
+.linea {
   display: flex;
   justify-content: space-between;
+  margin: 12px 0;
+  font-size: 16px;
 }
 
-/* 🎯 EFECTO FACTURA */
-.resultados::before {
-  content: '';
-  border-top: 1px solid #333;
-  margin: 10px 0;
+.total {
+  border-top: 2px solid #fff;
+  padding-top: 12px;
+  font-size: 20px;
+}
+
+/* BOTONES */
+ion-button {
+  margin-top: 15px;
+  --background: #fff;
+  color: #000;
+  font-size: 16px;
+  border-radius: 0;
+  font-family: 'VT323', monospace;
+  letter-spacing: 1px;
+}
+
+ion-button[fill="outline"] {
+  --background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* ✨ EFECTO RETRO SUTIL */
+.panel:hover {
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
 /* 📱 RESPONSIVE */
 @media (max-width: 768px) {
-  .user-layout {
+  .main-grid {
     grid-template-columns: 1fr;
   }
-}
-
-.modo-texto {
-  margin-top: -5px;
-  margin-bottom: 10px;
-  font-size: 13px;
-  color: #aaa;
-  text-align: right;
-}
-
-/* 📦 CONTENEDOR */
-ion-list {
-  background: #1b1f27;
-  border-radius: 12px;
-  padding: 5px;
-  margin-top: 10px;
-}
-
-/* 🧱 ITEMS */
-ion-item {
-  --background: transparent;
-  --color: #fff;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  transition: 0.2s;
-}
-
-/* 🖱️ HOVER */
-ion-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* 🔘 RADIO */
-ion-radio {
-  --color: #888;          /* sin seleccionar */
-  --color-checked: #4cafef; /* seleccionado */
-}
-
-/* 🏷️ LABEL */
-ion-label {
-  font-size: 14px;
-  color: #ccc;
-}
-
-/* ✅ ITEM SELECCIONADO */
-ion-item.item-radio-checked {
-  background: rgba(76, 175, 239, 0.15);
-  border: 1px solid #4cafef;
-}
-
-.checkbox-item {
-  margin-top: 10px;
-  border-radius: 10px;
-  padding: 5px 10px;
-  background: rgba(255,255,255,0.03);
 }

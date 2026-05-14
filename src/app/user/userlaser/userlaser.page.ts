@@ -291,7 +291,7 @@ async presentalertpdfemail() {
   };
 }
 getConfigGlobal() {
-  this.http.get<any>(`${this.localapi}/config-global`)
+  this.http.get<any>(`${this.localapi}/config-global_laser`)
     .subscribe({
       next: (res) => {
         console.log('Config global:', res);
