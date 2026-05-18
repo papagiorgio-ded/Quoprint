@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 
 interface ConfigGlobal {
   plastificado: number;
+  grapado: number;
+  coste_grapado: number;
+  mano_obra: number;
  
 }
 
@@ -39,6 +42,9 @@ nuevoPapel = {
 
  configGlobal: ConfigGlobal = {
     plastificado: 0,
+    grapado: 0,
+    coste_grapado: 0,
+    mano_obra:0
   };
 
 openPapelModal() {

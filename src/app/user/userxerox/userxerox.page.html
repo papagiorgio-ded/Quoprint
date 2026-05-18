@@ -101,7 +101,25 @@
         <ion-checkbox slot="end" [(ngModel)]="form.plastificado" (ionChange)="calcularXerox()"></ion-checkbox>
       </ion-item>
 
+      <ion-item>
+        <ion-label>Encudernado (grapado)</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="form.grapado" (ionChange)="calcularXerox()"></ion-checkbox>
+      </ion-item>
+
+
+
+      <h2>Manipulados</h2>
+      <ion-item>
+        <ion-label>Descripcion</ion-label>
+        <ion-textarea [(ngModel)]="form.descripcion" (ionInput)="calcularXerox()"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tiempo (minutos)</ion-label>
+        <ion-input type="number" [(ngModel)]="form.mano_obra_tiempo" (ionInput)="calcularXerox()"></ion-input>
+      </ion-item>
     </div>
+
+     
 
     <!-- 💰 RESULTADO -->
     <div class="panel result-panel">

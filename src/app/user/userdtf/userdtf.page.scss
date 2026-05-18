@@ -1,114 +1,130 @@
-/* 🧱 GRID PRINCIPAL */
+/* 🔤 FUENTE PIXEL */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+ion-content {
+  --background: #000;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  font-size: 18px;
+}
+
+/* HEADER */
+ion-toolbar {
+  --background: #000;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+/* 🧱 GRID */
 .main-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 20px;
-  padding: 15px;
-  height: 100%;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  padding: 20px;
 }
 
-/* 📥 FORMULARIO */
+/* 📦 FORMULARIO */
 .form-container {
-  background: #1b1f27;
-  padding: 15px;
-  border-radius: 14px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* 🔥 más separación entre bloques */
+  border: 2px solid #fff;
+  padding: 20px;
 }
 
-/* 🧾 ION-ITEM (CLAVE PARA SEPARAR LABEL / INPUT) */
-.form-container ion-item {
+/* 📦 RESULTADOS */
+.resumen {
+  border: 2px solid #fff;
+  padding: 20px;
+  height: fit-content;
+}
+
+/* 🧾 INPUTS */
+ion-item {
   --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  --min-height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  gap: 6px; /* 🔥 separación label-input */
-}
-
-/* 🏷️ LABEL */
-.form-container ion-label {
-  margin-bottom: 4px; /* 🔥 espacio extra */
-  font-size: 13px;
-  color: #fff;
-}
-
-/* ⌨️ INPUTS (NO CAMBIO COLOR) */
-.form-container ion-input,
-.form-container ion-select {
-  width: 100%;
-  padding-top: 6px;
+  border-bottom: 1px solid #444;
+  margin-bottom: 18px;
   padding-bottom: 6px;
-  margin-left: 4%;
+  font-family: 'VT323', monospace;
 }
 
-/* 🧾 ROW */
+/* LABEL */
+ion-label {
+  font-size: 14px;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+/* INPUT / SELECT */
+ion-input,
+ion-select {
+  color: #fff;
+  font-size: 18px;
+  font-family: 'VT323', monospace;
+}
+
+/* ROW (ANCHO x ALTO) */
 .row {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
 }
 
-/* 🎚️ RANGE */
-.form-container ion-range {
-  width: 100%;
-  margin-top: 8px; /* 🔥 más aire */
+.row p {
+  margin: 0;
 }
 
-/* 💰 PANEL DERECHO */
-.resumen {
-  background: #1b1f27;
-  padding: 15px;
-  border-radius: 14px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  justify-content: flex-start;
-  border-left: 1px solid #333;
+/* RANGE */
+ion-range {
+  --bar-background: #444;
+  --bar-background-active: #fff;
+  --knob-background: #fff;
 }
 
-/* 🧾 TÍTULO */
-.resumen h3 {
-  color: #fff;
-  margin-bottom: 10px;
-}
-
-/* 📄 FACTURA */
+/* RESULTADOS */
 .factura {
-  border-top: 1px solid #333;
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
-/* 📊 LÍNEAS */
 .linea {
   display: flex;
   justify-content: space-between;
-  margin: 8px 0;
-  color: #ccc;
-  font-size: 14px;
-}
-
-/* 💰 TOTAL */
-.total {
-  font-weight: bold;
-  color: #fff;
+  margin: 12px 0;
   font-size: 16px;
 }
 
-/* 🎯 FINAL */
+.total {
+  border-top: 2px solid #fff;
+  padding-top: 10px;
+  font-size: 18px;
+}
+
 .final {
   margin-top: 10px;
-  font-weight: bold;
-  color: #4cafef;
-  font-size: 18px;
+  font-size: 20px;
+  border-top: 2px dashed #fff;
+  padding-top: 10px;
+}
+
+/* BOTONES */
+ion-button {
+  margin-top: 15px;
+  --background: #fff;
+  color: #000;
+  border-radius: 0;
+  font-family: 'VT323', monospace;
+  letter-spacing: 1px;
+}
+
+ion-button[color="dark"] {
+  --background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* ✨ EFECTO RETRO */
+.form-container:hover,
+.resumen:hover {
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
 /* 📱 RESPONSIVE */

@@ -80,8 +80,23 @@
 
 
 <ion-item class="input-item">
-            <ion-label position="stacked">Plastificado</ion-label>
+            <ion-label position="stacked">Plastificado(unidadx€)</ion-label>
             <ion-input type="number" [(ngModel)]="configGlobal.plastificado"></ion-input>
+          </ion-item>
+
+<ion-item class="input-item">
+            <ion-label position="stacked">grapado(coste fijo €)</ion-label>
+            <ion-input type="number" [(ngModel)]="configGlobal.grapado"></ion-input>
+          </ion-item>
+          
+<ion-item class="input-item">
+            <ion-label position="stacked">grapado(coste unitario €)</ion-label>
+            <ion-input type="number" [(ngModel)]="configGlobal.coste_grapado"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="stacked">Precio hora(€/horas)</ion-label>
+            <ion-input type="number" [(ngModel)]="configGlobal.mano_obra"></ion-input>
           </ion-item>
           <ion-button expand="block" (click)="guardarConfig()">Guardar Configuración</ion-button>
 

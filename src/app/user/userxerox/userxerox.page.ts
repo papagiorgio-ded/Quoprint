@@ -18,7 +18,8 @@ import {
   IonSelectOption,
   IonTitle,
   IonToggle,
-  IonToolbar
+  IonToolbar,
+  IonTextarea
 } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { jsPDF } from 'jspdf';
@@ -34,6 +35,9 @@ interface Papel {
 interface ConfigGlobal {
   plastificado: number;
   iva: number;
+  grapado: number;
+  coste_grapado:number,
+  mano_obra:number
 }
 
 @Component({
@@ -46,7 +50,8 @@ interface ConfigGlobal {
     CommonModule, FormsModule,
     IonInput, IonItem, IonLabel, IonButton, IonButtons,
     IonSelectOption, IonSelect, IonCheckbox,
-    IonRadio, IonList, IonRadioGroup, IonToggle
+    IonRadio, IonList, IonRadioGroup, IonToggle,
+    IonTextarea
   ]
 })
 export class UserxeroxPage implements OnInit {
@@ -85,12 +90,18 @@ form: any = {
 
   // 🟡 LEGACY (si lo estabas usando antes en lógica vieja)
   una_cara: true,
-  doble_cara: false
+  doble_cara: false,
+  grapado: false,
+  descripcion: 'Escriba una descripción...',
+  mano_obra_tiempo: 0
 };
 
 public configGlobal: ConfigGlobal = {
   plastificado: 0,
-  iva: 21
+  iva: 21,
+  grapado: 0,
+  coste_grapado: 0,
+  mano_obra: 0
 };
 
 syncModoCara() {
@@ -184,12 +195,23 @@ calcularXerox() {
   if (this.form.plastificado) {
     total += hojas * n(this.configGlobal.plastificado) * copias;
   }
+  // GRAPADO GLOBAL
+if (this.form.grapado) {
+  total += this.configGlobal.coste_grapado;
+}
+const minutos = n(this.form.mano_obra_tiempo);
+
+const costeManoObra =
+  minutos * (n(this.configGlobal.mano_obra) / 60);
+
+total += costeManoObra;
 
   // 🧾 IVA (MEJOR GLOBAL)
   this.subtotal = total;
   this.IVA = total * (n(this.configGlobal.iva) / 100);
   this.totalCalculado = total + this.IVA;
 }
+
 
   // 📦 BACKEND
   getpapels() {
@@ -289,7 +311,10 @@ calcularXerox() {
 
         this.configGlobal = {
           plastificado: Number(res.plastificado) || 0,
-          iva: Number(res.iva) || 21
+          iva: Number(res.iva) || 21,
+          grapado: Number(res.grapado) || 0,
+          coste_grapado: Number(res.coste_grapado) || 0,
+          mano_obra: Number(res.mano_obra) || 0
         };
       },
       error: (err) => {
