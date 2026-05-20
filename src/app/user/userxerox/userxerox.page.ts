@@ -27,8 +27,6 @@ import { jsPDF } from 'jspdf';
 interface Papel {
   id: number;
   nombre: string;
-  blanco_negro: string | number;
-  color: string | number;
   precio_papel: string | number;
 }
 
@@ -37,7 +35,11 @@ interface ConfigGlobal {
   iva: number;
   grapado: number;
   coste_grapado:number,
-  mano_obra:number
+  mano_obra:number,
+  blanco_negro:number,
+  color:number,
+  hendido_coste:number,
+  hendido_maquina:number
 }
 
 @Component({
@@ -93,7 +95,8 @@ form: any = {
   doble_cara: false,
   grapado: false,
   descripcion: 'Escriba una descripción...',
-  mano_obra_tiempo: 0
+  mano_obra_tiempo: 0,
+  hendidos_cantidad: 0
 };
 
 public configGlobal: ConfigGlobal = {
@@ -101,7 +104,11 @@ public configGlobal: ConfigGlobal = {
   iva: 21,
   grapado: 0,
   coste_grapado: 0,
-  mano_obra: 0
+  mano_obra: 0,
+  blanco_negro: 0,
+  color: 0,
+  hendido_coste: 0,
+  hendido_maquina: 0
 };
 
 syncModoCara() {
@@ -134,84 +141,132 @@ onModoCaraChange() {
 
   // 🧮 CALCULO PRINCIPAL
   factorTamano(tamano: string): number {
+
   switch (tamano) {
+
     case 'SRA3': return 1;
     case 'A4': return 2;
     case 'A5': return 4;
     case 'A6': return 8;
     case 'A7': return 16;
+
     default: return 2;
   }
 }
-calcularXerox() {
+
+ calcularXerox() {
 
   const n = (v: any) => parseFloat(v) || 0;
 
   const papel = this.form.tipo_papel;
   if (!papel) return;
 
+  const hendidos = n(this.form.hendidos_cantidad);
+
   const paginas = n(this.form.paginas);
   const copias = n(this.form.copias) || 1;
+
+  // 🔥 FACTOR TAMAÑO
+  const factor = this.factorTamano(this.form.tamano);
 
   const esUna = this.form.modo_cara === 'una';
   const esDoble = this.form.modo_cara === 'doble';
 
   let hojas = paginas;
 
-  // 📄 DOBLE CARA = menos hojas
+  // 📄 DOBLE CARA
   if (esDoble) {
     hojas = Math.ceil(paginas / 2);
   }
 
-  const precioBN = n(papel.blanco_negro);
-  const precioColor = n(papel.color);
-
   let total = 0;
+
+  // 🖨️ PRECIOS GLOBALES
+  const precioBN = n(this.configGlobal.blanco_negro);
+  const precioColor = n(this.configGlobal.color);
 
   // 🟢 UNA CARA
   if (esUna) {
-    const precio = this.form.una_cara_tipo === 'color'
-      ? precioColor
-      : precioBN;
 
-    total += paginas * precio;
+    const precio =
+      this.form.una_cara_tipo === 'color'
+        ? precioColor
+        : precioBN;
+
+    // 🔥 aplicar factor tamaño
+    total += paginas * (precio / factor);
   }
 
   // 🔵 DOBLE CARA
   if (esDoble) {
-    const precioA = this.form.caraA === 'color' ? precioColor : precioBN;
-    const precioB = this.form.caraB === 'color' ? precioColor : precioBN;
 
-    total += hojas * (precioA + precioB);
+    const precioA =
+      this.form.caraA === 'color'
+        ? precioColor
+        : precioBN;
+
+    const precioB =
+      this.form.caraB === 'color'
+        ? precioColor
+        : precioBN;
+
+    // 🔥 aplicar factor tamaño
+    total += hojas * ((precioA + precioB) / factor);
   }
 
-  // 📄 COSTE PAPEL
-  total += hojas * n(papel.precio_papel);
+  // 📄 PAPEL
+  total += hojas * (n(papel.precio_papel) / factor);
 
   // 🔁 COPIAS
   total *= copias;
 
-  // 🔥 PLASTIFICADO (GLOBAL ✅)
+  // 🔥 PLASTIFICADO
   if (this.form.plastificado) {
-    total += hojas * n(this.configGlobal.plastificado) * copias;
+
+    total +=
+      hojas *
+      (n(this.configGlobal.plastificado) / factor) *
+      copias;
   }
-  // GRAPADO GLOBAL
-if (this.form.grapado) {
-  total += this.configGlobal.coste_grapado;
-}
-const minutos = n(this.form.mano_obra_tiempo);
 
-const costeManoObra =
-  minutos * (n(this.configGlobal.mano_obra) / 60);
+  // 🧷 GRAPADO
+  if (this.form.grapado) {
 
-total += costeManoObra;
+    total += n(this.configGlobal.coste_grapado);
+  }
 
-  // 🧾 IVA (MEJOR GLOBAL)
+  // 📐 HENDIDO
+  if (hendidos > 0) {
+
+    // coste variable
+    total +=
+      hendidos *
+      n(this.configGlobal.hendido_coste);
+
+    // coste fijo máquina
+    total +=
+      n(this.configGlobal.hendido_maquina);
+  }
+
+  // 👷 MANO DE OBRA
+  const minutos = n(this.form.mano_obra_tiempo);
+
+  const costeManoObra =
+    minutos *
+    (n(this.configGlobal.mano_obra) / 60);
+
+  total += costeManoObra;
+
+  // 🧾 IVA
   this.subtotal = total;
-  this.IVA = total * (n(this.configGlobal.iva) / 100);
-  this.totalCalculado = total + this.IVA;
-}
 
+  this.IVA =
+    total *
+    (n(this.configGlobal.iva) / 100);
+
+  this.totalCalculado =
+    total + this.IVA;
+}
 
   // 📦 BACKEND
   getpapels() {
@@ -314,7 +369,11 @@ total += costeManoObra;
           iva: Number(res.iva) || 21,
           grapado: Number(res.grapado) || 0,
           coste_grapado: Number(res.coste_grapado) || 0,
-          mano_obra: Number(res.mano_obra) || 0
+          mano_obra: Number(res.mano_obra) || 0,
+          blanco_negro: Number(res.blanco_negro) || 0,
+          color: Number(res.color) || 0,
+          hendido_coste: Number(res.hendido_coste) || 0,
+          hendido_maquina: Number(res.hendido_maquina) || 0
         };
       },
       error: (err) => {

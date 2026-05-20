@@ -9,6 +9,10 @@ interface ConfigGlobal {
   grapado: number;
   coste_grapado: number;
   mano_obra: number;
+  blanco_negro:number;
+  color:number;
+  hendido_maquina:number;
+  hendido_coste:number;
  
 }
 
@@ -33,18 +37,18 @@ public papeles: any[] = [];
 
 nuevoPapel = {
   nombre: '',
-  precio_papel: 0,
-  precio_copia: 0,
-  plastificado: 0,
-  blanco_negro: 0,
-  color: 0
+  precio_papel: 0
 };
 
  configGlobal: ConfigGlobal = {
     plastificado: 0,
     grapado: 0,
     coste_grapado: 0,
-    mano_obra:0
+    mano_obra:0,
+    blanco_negro:0,
+    color:0,
+    hendido_maquina:0,
+    hendido_coste:0
   };
 
 openPapelModal() {
@@ -57,16 +61,12 @@ closePapelModal() {
   // reset
   this.nuevoPapel = {
     nombre: '',
-    precio_papel: 0,
-    precio_copia: 0,
-    plastificado:0,
-    blanco_negro: 0,
-    color: 0
+    precio_papel: 0
   };
 }
 
 guardarPapel() {
-  if (!this.nuevoPapel.nombre || !this.nuevoPapel.precio_papel || !this.nuevoPapel.precio_copia) {
+  if (!this.nuevoPapel.nombre || !this.nuevoPapel.precio_papel ) {
     alert('Rellena todos los campos');
     return;
   }

@@ -106,6 +106,12 @@
         <ion-checkbox slot="end" [(ngModel)]="form.grapado" (ionChange)="calcularXerox()"></ion-checkbox>
       </ion-item>
 
+      <ion-item>
+        <ion-label>Hendidos</ion-label>
+        <ion-input type="number" [(ngModel)]="form.hendidos_cantidad" (ionInput)="calcularXerox()"></ion-input>
+      </ion-item>
+
+
 
 
       <h2>Manipulados</h2>
