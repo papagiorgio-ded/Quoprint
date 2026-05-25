@@ -14,73 +14,127 @@
 
     <ion-card-content>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('mano_obra')">
         <ion-label position="stacked">Mano de obra (€)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.mano_obra"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.mano_obra" (ionInput)="marcarCambio('mano_obra')"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('iva')">
         <ion-label position="stacked">IVA (%)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.iva"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.iva" (ionInput)="marcarCambio('iva')"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('limpieza')">
         <ion-label position="stacked">Limpieza (€)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.limpieza"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.limpieza" (ionInput)="marcarCambio('limpieza')"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('mascara')">
         <ion-label position="stacked">Máscara (€)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.mascara"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.mascara" (ionInput)="marcarCambio('mascara')"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('pintura')">
         <ion-label position="stacked">Pintura (€)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.pintura"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.pintura" (ionInput)="marcarCambio('pintura')"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item
+  [class.input-modificado]="camposModificados.includes('tiempo_corte')">
         <ion-label position="stacked">Tiempo corte (€)</ion-label>
-        <ion-input type="number" [(ngModel)]="configGlobal.tiempo_corte"></ion-input>
+        <ion-input type="number" [(ngModel)]="configGlobal.tiempo_corte" (ionInput)="marcarCambio('tiempo_corte')"></ion-input>
       </ion-item>
 
-      <ion-button expand="block" color="success" (click)="guardarConfigGlobal()">
-        💾 Guardar configuración
-      </ion-button>
+        <ion-item class="input-item">
+  <ion-label position="stacked">Buscar material</ion-label>
+  <ion-input
+    [(ngModel)]="busqueda"
+    (ionInput)="filtrarMateriales()"
+    placeholder="Ej: madera, metal..."
+  ></ion-input>
+</ion-item>
+
+<div class="list-scroll">
+
+  <ion-list>
+
+    @for (m of materialesVisibles; track m.id) {
+
+      <ion-item lines="full">
+
+        <ion-label>
+          <h2>{{ m.nombre }}</h2>
+          <p>{{ m.ancho_cm }}x{{ m.alto_cm }} cm</p>
+          <p>{{ m.coste }} €</p>
+        </ion-label>
+
+        <div slot="end" class="btn-group">
+
+          <ion-button
+            size="small"
+            color="warning"
+            (click)="seleccionarMaterial(m)">
+            ✏️
+          </ion-button>
+
+          <ion-button
+            size="small"
+            color="danger"
+            (click)="presentalertdelete(m)">
+            🗑️
+          </ion-button>
+
+        </div>
+
+      </ion-item>
+
+    }
+
+  </ion-list>
+
+</div>
+
+<ion-infinite-scroll (ionInfinite)="loadMore($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Cargando materiales...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+
 
     </ion-card-content>
   </ion-card>
 
   <!-- ➕ BOTÓN CREAR -->
-  <ion-button expand="block" (click)="abrirModal()">
-    ➕ Añadir material
+  <!-- ➕ BOTÓN FLOTANTE MATERIAL -->
+<div class="fab-container">
+  <button class="fab-pixel" (click)="abrirModal()">
+    ➕ Añadir Material
+  </button>
+</div>
+
+     <!-- 💾 BOTÓN FLOTANTE GUARDAR -->
+<div
+  
+  *ngIf="hayCambios">
+
+  <ion-button
+  class="pixel-fab-fixed"
+    color="success"
+    (click)="guardarConfigGlobal()">
+
+     Guardar configuración
+
   </ion-button>
 
-  <!-- 📦 LISTA MATERIALES -->
-  <ion-card *ngFor="let m of materiales">
+</div>
 
-    <ion-card-header>
-      <ion-card-title>{{ m.nombre }}</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <p>Ancho: {{ m.ancho_cm }} cm</p>
-      <p>Alto: {{ m.alto_cm }} cm</p>
-      <p>Coste: {{ m.coste }} €</p>
-      <p>Merma: {{ m.merma_porcentaje }} %</p>
-
-      <ion-button size="small" color="warning" (click)="seleccionarMaterial(m)">
-        ✏️ Editar
-      </ion-button>
-
-      <ion-button size="small" color="danger" (click)="presentalertdelete(m)">
-        🗑️ Eliminar
-      </ion-button>
-
-    </ion-card-content>
-
-  </ion-card>
 
   <!-- 🆕 MODAL CREAR -->
   <ion-modal [isOpen]="isModalOpencreatematerial"
@@ -123,6 +177,10 @@
           <ion-label position="stacked">Merma (%)</ion-label>
           <ion-input type="number" [(ngModel)]="form.merma"></ion-input>
         </ion-item>
+
+      
+
+
 
         <ion-button expand="block" (click)="crearMaterial()">
           💾 Guardar

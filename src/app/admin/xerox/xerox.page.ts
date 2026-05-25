@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar,IonModal, IonButtons, IonItem, IonLabel, IonInput, AlertController} from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar,IonModal, IonButtons, IonItem, IonLabel, IonInput, AlertController, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonFab, IonFabButton, IonFabList} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 interface ConfigGlobal {
@@ -21,7 +21,7 @@ interface ConfigGlobal {
   templateUrl: './xerox.page.html',
   styleUrls: ['./xerox.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonButton,IonModal,IonButtons,IonItem,IonLabel,IonInput]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonButton,IonModal,IonButtons,IonItem,IonLabel,IonInput,IonCard,IonCardHeader,IonCardTitle,IonCardContent,IonInfiniteScroll,IonInfiniteScrollContent,IonList,IonFab,IonFabButton,IonFabList]
 })
 export class XeroxPage implements OnInit {
 
@@ -39,6 +39,15 @@ nuevoPapel = {
   nombre: '',
   precio_papel: 0
 };
+hayCambios: boolean = false;
+camposModificados: Set<string> = new Set();
+busqueda: string = '';
+
+papelesFiltrados: any[] = [];
+papelesVisibles: any[] = [];
+
+pagina: number = 0;
+limite: number = 10;
 
  configGlobal: ConfigGlobal = {
     plastificado: 0,
@@ -88,15 +97,68 @@ guardarPapel() {
     });
 }
 cargarPapeles() {
-  this.http.get(`${this.localapi}/getpapels`).subscribe({
-    next: (res: any) => {
-      console.log('Papeles obtenidos:', res);
-      this.papeles = res;
-    },
-    error: (err) => {
-      console.error('Error obteniendo papeles:', err);
-    }
-  });
+
+  this.http.get<any[]>(`${this.localapi}/getpapels`)
+    .subscribe({
+
+      next: (res) => {
+
+        this.papeles = res;
+
+        this.aplicarFiltro(); // 🔥 nuevo flujo
+
+      },
+
+      error: (err) => {
+        console.error('Error obteniendo papeles:', err);
+      }
+
+    });
+
+}
+
+aplicarFiltro() {
+
+  const texto = this.busqueda.toLowerCase();
+
+  this.papelesFiltrados = this.papeles.filter(p =>
+    p.nombre.toLowerCase().includes(texto)
+  );
+
+  this.resetInfinite();
+
+}
+
+resetInfinite() {
+
+  this.pagina = 0;
+
+  this.papelesVisibles =
+    this.papelesFiltrados.slice(0, this.limite);
+
+}
+
+loadMore(event: any) {
+
+  this.pagina++;
+
+  const inicio = this.pagina * this.limite;
+  const fin = inicio + this.limite;
+
+  const nuevos =
+    this.papelesFiltrados.slice(inicio, fin);
+
+  this.papelesVisibles.push(...nuevos);
+
+  event.target.complete();
+
+  if (this.papelesVisibles.length >= this.papelesFiltrados.length) {
+    event.target.disabled = true;
+  }
+
+}
+reiniciarBusqueda() {
+  this.aplicarFiltro();
 }
 
 async presentAlertOK() {
@@ -183,9 +245,18 @@ let id = papel.id;
       next: () => {
         console.log('Config guardada');
         this.presentAlertOK();
+        this.hayCambios = false; 
+        this.camposModificados.clear();
       },
       error: (err) => console.error(err)
     });
 
 }
+
+
+marcarCambio(campo: string) {
+  this.camposModificados.add(campo);
+  this.hayCambios = true;
+}
+
 }

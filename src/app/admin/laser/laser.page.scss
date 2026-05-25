@@ -128,3 +128,186 @@ ion-modal ion-toolbar {
     margin: 10px;
   }
 }
+
+.fab-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.fab-pixel {
+  background: #fff;
+  color: #000;
+
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+
+  border: 2px solid #fff;
+  border-radius: 0;
+
+  padding: 10px 14px;
+
+  box-shadow: none;
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.list-scroll {
+  height: 400px; /* ajusta esto a tu diseño */
+  overflow-y: auto;
+
+  border: 2px solid #fff;
+  margin: 10px 0;
+}
+
+/* 💾 BOTÓN FLOTANTE */
+
+.floating-save {
+
+  position: fixed;
+
+  bottom: 10%;
+  right: 20px;
+
+  z-index: 9999;
+}
+
+.floating-save ion-button {
+
+  --background: #fff;
+  --color: #000;
+
+  --border-radius: 0;
+
+  font-family: 'VT323', monospace;
+
+  letter-spacing: 1px;
+
+  border: 2px solid #fff;
+
+  min-width: 220px;
+  height: 50px;
+
+  font-size: 18px;
+
+  box-shadow:
+    0 0 0 2px #000,
+    0 0 12px rgba(255,255,255,0.15);
+}
+
+/* ✨ HOVER */
+
+.floating-save ion-button:hover {
+
+  transform: translateY(-2px);
+
+  transition: 0.2s;
+}
+
+/* 📱 MÓVIL */
+
+@media (max-width: 768px) {
+
+  .floating-save {
+
+    right: 10px;
+    left: 10px;
+
+    bottom: 10px;
+  }
+
+  .floating-save ion-button {
+
+    width: 100%;
+  }
+}
+
+/* 🔥 INPUT MODIFICADO */
+.input-modificado {
+
+  border: 2px solid #00ff88 !important;
+
+  box-shadow:
+    0 0 10px rgba(0,255,120,0.4);
+
+  transition: 0.2s;
+}
+
+/* 📌 BOTÓN FLOTANTE */
+
+
+
+.pixel-fab-fixed:hover {
+  background: #000;
+  color: #fff;
+}
+
+
+.pixel-fab-fixed {
+
+  position: fixed;
+  bottom: 10%;
+  right: 20px;
+
+  z-index: 999;
+
+  /* 🔥 RESET IONIC */
+  --background: #fff;
+  --color: #000;
+
+  --border-radius: 0;
+
+  --box-shadow: none;
+
+  --padding-start: 18px;
+  --padding-end: 18px;
+
+  --ripple-color: transparent;
+
+  min-width: auto;
+
+  border: 1px solid #fff;
+
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+
+  transition: all 0.2s ease;
+}
+
+/* 🟢 CUANDO HAY CAMBIOS */
+.pixel-fab-fixed.active {
+   --background: #00ff66;
+  --color: #000;
+
+  border: 2px solid #00ff66;
+
+  box-shadow: 0 0 10px #00ff66;
+}
+
+ion-item.modified {
+  border-bottom: 2px solid #00ff66 !important;
+
+  box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+  transition: all 0.2s ease;
+}
+ion-item.modified ion-label {
+  color: #00ff66;
+  opacity: 1;
+}
+/* ✨ ANIMACIÓN */
+@keyframes pixelPop {
+
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

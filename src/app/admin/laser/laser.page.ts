@@ -18,7 +18,11 @@ import {
   IonCardTitle,
   IonCardContent,
   AlertController,
-  IonButtons
+  IonButtons,
+  IonList,
+  IonListHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent
 } from '@ionic/angular/standalone';
 
 interface ConfigGlobal {
@@ -51,8 +55,11 @@ interface ConfigGlobal {
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
-    IonButtons
-  ]
+    IonButtons,
+    IonList,
+    IonListHeader,
+  IonInfiniteScroll,
+IonInfiniteScrollContent  ]
 })
 export class LaserPage {
 
@@ -72,6 +79,15 @@ export class LaserPage {
     pintura: 0,
     tiempo_corte: 0
   };
+hayCambios = false;
+
+camposModificados: string[] = [];
+  busqueda: string = '';
+materialesFiltrados: any[] = [];
+materialesVisibles: any[] = [];
+
+limite: number = 10;
+offset: number = 0;
 
   // 📦 FORM MATERIAL
   public form = {
@@ -180,8 +196,12 @@ export class LaserPage {
   getMateriales() {
     this.http.get<any[]>(`${this.localapi}/getmaterials`)
       .subscribe({
+    
         next: (res) => this.materiales = res,
-        error: (err) => console.error(err)
+        error: (err) => console.error(err),
+          
+
+        
       });
   }
 
@@ -284,7 +304,12 @@ guardarEdicion() {
       .subscribe({
         next: () => this.presentalertconfirmacion(),
         error: (err) => console.error(err)
+
+        
       });
+
+      this.hayCambios = false;
+        this.camposModificados = [];
   }
 
   getConfig() {
@@ -322,5 +347,55 @@ onCreateModalClose() {
     coste: 0,
     merma: 0
   };
+}
+
+filtrarMateriales() {
+  const texto = this.busqueda.toLowerCase().trim();
+
+  this.materialesFiltrados = this.materiales.filter(m =>
+    m.nombre.toLowerCase().includes(texto)
+  );
+
+  this.resetScroll();
+}
+
+resetScroll() {
+  this.offset = 0;
+  this.materialesVisibles = [];
+
+  this.loadMore();
+}
+
+loadMore(event?: any) {
+
+  const data = this.materialesFiltrados.length
+    ? this.materialesFiltrados
+    : this.materiales;
+
+  const siguiente = data.slice(this.offset, this.offset + this.limite);
+
+  this.materialesVisibles = [
+    ...this.materialesVisibles,
+    ...siguiente
+  ];
+
+  this.offset += this.limite;
+
+  if (event) {
+    event.target.complete();
+
+    if (this.offset >= data.length) {
+      event.target.disabled = true;
+    }
+  }
+}
+
+marcarCambio(campo: string) {
+
+  this.hayCambios = true;
+
+  if (!this.camposModificados.includes(campo)) {
+    this.camposModificados.push(campo);
+  }
 }
 }
