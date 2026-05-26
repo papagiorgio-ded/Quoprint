@@ -7,6 +7,22 @@ ion-content {
   color: #fff;
   font-size: 18px;
 }
+.pixel-title {
+
+  font-family: 'VT323', monospace;
+
+  font-size: 20px;
+
+  letter-spacing: 2px;
+
+  color: #fff;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    2px 2px 0 #000,
+    0 0 8px rgba(255,255,255,0.2);
+}
 
 /* 🔝 HEADER */
 ion-header ion-toolbar {

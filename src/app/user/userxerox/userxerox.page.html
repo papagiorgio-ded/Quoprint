@@ -132,6 +132,34 @@
 
       <h2>RESULT</h2>
 
+         <div class="multiplicador-mini">
+
+  <span class="multi-label">Multiplicador</span>
+
+  <ion-radio-group
+    [value]="multiplicador"
+    (ionChange)="onMultiplicadorChange($event)"
+    class="mini-radio-group">
+
+    <ion-item lines="none">
+      <ion-label>x2</ion-label>
+      <ion-radio slot="start" [value]="2"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>x3</ion-label>
+      <ion-radio slot="start" [value]="3"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>x4</ion-label>
+      <ion-radio slot="start" [value]="4"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+
+</div>
+
       <div class="linea">
         <span>Subtotal</span>
         <span>{{ subtotal | number:'1.2-2' }} €</span>
@@ -143,9 +171,16 @@
       </div>
 
       <div class="linea total">
-        <span>TOTAL</span>
+          <span>Total x{{ multiplicador }}</span>
+          <span>{{ multiplicadorradio | number:'1.2-2' }} €</span>
+        </div>
+
+      <div class="linea final">
+        <span>Coste</span>
         <span>{{ totalCalculado | number:'1.2-2' }} €</span>
       </div>
+
+      
 
       <ion-button expand="block" (click)="enviarPDF()">
         📧 ENVIAR

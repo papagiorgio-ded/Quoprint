@@ -61,28 +61,33 @@
     <div class="resumen">
 
       <!-- Multiplicador -->
-       <ion-list>
-      <ion-radio-group 
-  [value]="multiplicador"
-  (ionChange)="onMultiplicadorChange($event)">
+      <div class="multiplicador-mini">
 
-  <ion-item lines="none">
-    <ion-label>x2</ion-label>
-    <ion-radio [value]="2"></ion-radio>
-  </ion-item>
+  <span class="multi-label">Multiplicador</span>
 
-  <ion-item lines="none">
-    <ion-label>x3</ion-label>
-    <ion-radio [value]="3"></ion-radio>
-  </ion-item>
+  <ion-radio-group
+    [value]="multiplicador"
+    (ionChange)="onMultiplicadorChange($event)"
+    class="mini-radio-group">
 
-  <ion-item lines="none">
-    <ion-label>x4</ion-label>
-    <ion-radio [value]="4"></ion-radio>
-  </ion-item>
+    <ion-item lines="none">
+      <ion-label>x2</ion-label>
+      <ion-radio slot="start" [value]="2"></ion-radio>
+    </ion-item>
 
-</ion-radio-group>
-      </ion-list>
+    <ion-item lines="none">
+      <ion-label>x3</ion-label>
+      <ion-radio slot="start" [value]="3"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>x4</ion-label>
+      <ion-radio slot="start" [value]="4"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+
+</div>
 
       <!-- RESULTADOS -->
       <div class="factura" >
@@ -98,7 +103,7 @@
         </div>
 
         <div class="linea total">
-          <span>Total</span>
+          <span>Coste</span>
           <span>{{ totalCalculado | number:'1.2-2' }} €</span>
         </div>
 

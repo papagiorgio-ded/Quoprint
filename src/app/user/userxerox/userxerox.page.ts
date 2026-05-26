@@ -66,6 +66,8 @@ export class UserxeroxPage implements OnInit {
   public localapi: string = 'http://localhost:3000';
   public papeles: Papel[] = [];
   public miPdf: Blob | null = null;
+   public multiplicador:number = 3;
+ public multiplicadorradio:number = 0;
 
   subtotal: number = 0;
   IVA: number = 0;
@@ -84,8 +86,8 @@ form: any = {
   una_cara_tipo: 'bn', // 'bn' | 'color'
 
   // 🔵 DOBLE CARA (nuevo sistema)
-  caraA: 'bn', // 'bn' | 'color'
-  caraB: 'bn', // 'bn' | 'color'
+  caraA: 'color', // 'bn' | 'color'
+  caraB: 'color', // 'bn' | 'color'
 
   // 📦 EXTRA
   plastificado: false,
@@ -264,8 +266,13 @@ onModoCaraChange() {
     total *
     (n(this.configGlobal.iva) / 100);
 
+this.IVA = this.IVA * this.multiplicador;
+
+this.subtotal = this.subtotal * this.multiplicador;
+
   this.totalCalculado =
     total + this.IVA;
+    this.multiplicadorradio = this.totalCalculado * this.multiplicador;
 }
 
   // 📦 BACKEND
@@ -382,4 +389,9 @@ onModoCaraChange() {
     });
 }
   
+
+onMultiplicadorChange(event: any) {
+  this.multiplicador = Number(event.detail.value);
+  this.calcularXerox();
+}
 }

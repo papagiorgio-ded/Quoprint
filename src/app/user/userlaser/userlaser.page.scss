@@ -165,3 +165,77 @@ ion-button[color="dark"] {
     grid-template-columns: 1fr;
   }
 }
+
+/* 🎮 CONTENEDOR */
+.multiplicador-mini {
+
+  margin-top: 10px;
+
+  border: 1px solid #444;
+
+  padding: 8px;
+
+  background: #000;
+}
+
+/* 🏷️ LABEL */
+.multi-label {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #aaa;
+
+  font-family: 'VT323', monospace;
+
+  font-size: 16px;
+
+  letter-spacing: 1px;
+}
+
+/* 📻 GROUP */
+.mini-radio-group {
+
+  display: flex;
+
+  gap: 10px;
+}
+
+/* 📦 ITEM MINI */
+.mini-radio-group ion-item {
+
+  --background: transparent;
+
+  --min-height: 28px;
+
+  font-size: 14px;
+
+  border: 1px solid #333;
+
+  padding: 2px 6px;
+
+  width: auto;
+
+  min-width: auto;
+}
+
+/* 🔘 RADIO MINI */
+.mini-radio-group ion-radio {
+
+  zoom: 0.7;
+
+  margin-right: 4px;
+}
+
+/* 📝 TEXTO */
+.mini-radio-group ion-label {
+
+  margin: 0;
+
+  font-size: 14px;
+
+  color: #fff;
+
+  font-family: 'VT323', monospace;
+}
