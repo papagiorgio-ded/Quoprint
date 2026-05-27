@@ -13,8 +13,8 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
     provideAuth0({
-      domain: 'dev-ilygyz70a1ppo5dt.us.auth0.com',
-      clientId: 'IpGolUhAdGNlC2Z1VLqmqk8GsoOpNrUp',
+      domain: 'dev-lm8rb66pb56mdn1o.eu.auth0.com',
+      clientId: 'xM0pd18y7CykCbWO6qfzKz2ttfK0Mxg6',
       authorizationParams: {
         redirect_uri: window.location.origin
       }
