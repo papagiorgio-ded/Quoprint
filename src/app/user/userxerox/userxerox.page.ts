@@ -63,7 +63,7 @@ export class UserxeroxPage implements OnInit {
     private alertController: AlertController
   ) {}
 
-  public localapi: string = 'http://localhost:3000';
+  public localapi: string = 'https://backend-ofwl.onrender.com';
   public papeles: Papel[] = [];
   public miPdf: Blob | null = null;
    public multiplicador:number = 3;

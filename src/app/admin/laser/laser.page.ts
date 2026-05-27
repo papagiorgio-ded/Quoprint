@@ -68,7 +68,7 @@ export class LaserPage {
     private alertController: AlertController
   ) {}
 
-  public localapi: string = 'http://localhost:3000';
+  public localapi: string = 'https://backend-ofwl.onrender.com';
 
   // 🔥 CONFIG GLOBAL
   configGlobal: ConfigGlobal = {

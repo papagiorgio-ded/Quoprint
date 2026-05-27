@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
 }
 
 
-public api:string = "http://localhost:3000"
+public api:string = "https://backend-ofwl.onrender.com"
 
 sendUser(email: string) {
   this.http.post(`${this.api}/users`, {

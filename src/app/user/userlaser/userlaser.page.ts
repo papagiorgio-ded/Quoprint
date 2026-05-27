@@ -25,7 +25,7 @@ export class UserlaserPage implements OnInit {
   constructor(private http: HttpClient,private alertController: AlertController) { }
   public materiales: any[] = [];
  public materialSeleccionado: any;
- public totalCalculado:any;
+ public totalCalculado:number = 0;
  public configGlobal: ConfigGlobal = {
   mano_obra: 0,
   iva: 21,
@@ -38,7 +38,7 @@ export class UserlaserPage implements OnInit {
  public multiplicadorradio:number = 0;
  public subtotal:number = 0;
  public IVA:number = 0;
-  public localapi:string = 'http://localhost:3000'
+  public localapi:string = 'https://backend-ofwl.onrender.com'
   ngOnInit() {
 
     this.getMateriales()

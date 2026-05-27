@@ -32,7 +32,7 @@ export class XeroxPage implements OnInit {
     this.getConfig();
   }
 public papeles: any[] = [];
-  public localapi:string = 'http://localhost:3000'
+  public localapi:string = 'https://backend-ofwl.onrender.com'
   showPapelModal = false;
 
 nuevoPapel = {
