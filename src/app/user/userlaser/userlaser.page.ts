@@ -28,7 +28,7 @@ export class UserlaserPage implements OnInit {
  public totalCalculado:number = 0;
  public configGlobal: ConfigGlobal = {
   mano_obra: 0,
-  iva: 21,
+  iva: 0,
   limpieza: 0,
   mascara: 0,
   pintura: 0,
@@ -60,72 +60,122 @@ export class UserlaserPage implements OnInit {
 
 calcular() {
 
-  if (!this.materialSeleccionado) return;
+  if (!this.materialSeleccionado || !this.configGlobal) return;
 
   const m = this.materialSeleccionado;
   const g = this.configGlobal;
 
   const n = (v: any) => Number(v) || 0;
 
-  // 📏 ÁREAS
-  const areaPlancha = n(m.ancho_cm) * n(m.alto_cm);
-  const areaPieza = n(this.form.ancho) * n(this.form.alto);
+  // =========================
+  // DATOS
+  // =========================
+
+  const anchoPlancha = n(m.ancho_cm);
+  const altoPlancha = n(m.alto_cm);
+
+  const anchoPieza = n(this.form.ancho);
+  const altoPieza = n(this.form.alto);
+
   const unidades = n(this.form.unidades || 1);
 
-  if (areaPlancha === 0 || areaPieza === 0) {
+  // =========================
+  // ÁREAS
+  // =========================
+
+  const areaPlancha = anchoPlancha * altoPlancha;
+  const areaPieza = anchoPieza * altoPieza;
+
+  if (areaPlancha <= 0 || areaPieza <= 0) {
     this.totalCalculado = 0;
     return;
   }
 
-  // 💰 COSTE BASE CM²
-  const costeBaseCm2 = n(m.coste) / areaPlancha;
+  // =========================
+  // MATERIAL
+  // =========================
 
-  // 📦 MATERIAL
-  const costeMaterial = costeBaseCm2 * areaPieza * unidades;
+  // Precio total de la plancha
+  const precioPlancha = n(m.coste);
 
-  // 🧠 GLOBAL (ya no viene del material)
-  const mascara = n(g.mascara) * areaPieza * unidades;
+  // Precio por cm²
+  const precioCm2 = precioPlancha / areaPlancha;
 
-  const pintura = this.form.pintado
-    ? n(g.pintura) * unidades
-    : 0;
+  // Material consumido
+  const costeMaterial =
+    precioCm2 *
+    areaPieza *
+    unidades;
 
-  const corte =
-  n(this.form.tiempo_corte) *
-  n(g.mano_obra);
+  // =========================
+  // EXTRAS
+  // =========================
 
-  const limpieza = n(g.limpieza) * unidades;
-
-  const tiempoCorte = n(g.tiempo_corte);
-const manoHora = n(g.mano_obra);
-
-const manoObra =
-  (tiempoCorte / 60) *
-  manoHora *
+  const mascara =
+  n(g.mascara) *
   unidades;
 
-  // 📊 SUBTOTAL
+  const pintura =
+    this.form.pintado
+      ? n(g.pintura) * unidades
+      : 0;
+
+  const limpieza =
+    n(g.limpieza) *
+    unidades;
+
+ const manoObra =
+  (n(this.form.tiempo_corte) / 60) *
+  n(g.mano_obra) *
+  unidades;
+
+  // =========================
+  // SUBTOTAL
+  // =========================
+
   let subtotal =
     costeMaterial +
     mascara +
     pintura +
-    corte +
     limpieza +
     manoObra;
 
-  // 📉 MERMA (sí sigue en material)
-  subtotal *= 1 + n(m.merma_porcentaje) / 100;
+  // =========================
+  // MERMA
+  // =========================
 
-  // 🧾 IVA (GLOBAL ahora)
-  const total = subtotal * (1 + n(g.iva) / 100);
+  subtotal *= 1 + (n(m.merma_porcentaje) / 100);
 
-  // 🎯 RESULTADO FINAL
-  this.multiplicadorradio = total * this.multiplicador;
-  this.totalCalculado = total;
+  // =========================
+  // IVA
+  // =========================
+
+  const total =
+    subtotal *
+    (1 + n(g.iva) / 100);
+
+  // =========================
+  // RESULTADOS
+  // =========================
+
   this.subtotal = subtotal;
+  this.totalCalculado = total;
   this.IVA = total - subtotal;
+  this.multiplicadorradio = total * this.multiplicador;
 
-  
+  // DEBUG
+  console.log({
+    areaPlancha,
+    areaPieza,
+    precioPlancha,
+    precioCm2,
+    costeMaterial,
+    total
+  });
+
+  console.log("MATERIAL:", m);
+console.log("CONFIG:", g);
+
 }
 
 

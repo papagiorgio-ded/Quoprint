@@ -227,6 +227,7 @@ guardarEdicion() {
     },
     error: (err) => console.error(err)
   });
+  this.getMateriales();
 }
  guardarConfigGlobal() {
 
@@ -270,6 +271,7 @@ guardarEdicion() {
         next: () => this.getMateriales(),
         error: (err) => console.error(err)
       });
+      this.getMateriales();
   }
 
   async presentalertdelete(material: any) {
